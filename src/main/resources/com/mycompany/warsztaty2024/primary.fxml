@@ -18,6 +18,8 @@
         <menus>
           <Menu mnemonicParsing="false" text="Baza">
             <items>
+                  <MenuItem fx:id="menu_pobierz" mnemonicParsing="false" onAction="#otworzPlikAction" text="Pobierz dane" />
+                  <MenuItem fx:id="zapiszDoPliku" mnemonicParsing="false" onAction="#zapiszDoPlikuAction" text="Zapisz dane" />
                   <MenuItem fx:id="menu_usun" mnemonicParsing="false" onAction="#usunelementAction" text="usun element" />
               <MenuItem fx:id="menu_zamknij" mnemonicParsing="false" onAction="#zamknijAplikacjeAction" text="zamknij" />
             </items>
