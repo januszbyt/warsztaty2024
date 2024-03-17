@@ -10,6 +10,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -47,10 +49,16 @@ new Osoba("Les", "wacek", 41.0),
 new Osoba("Duda", "Kamil", 21.0)
 ); 
 
-    @FXML
-    private void switchToSecondary() throws IOException {
-        App.setRoot("secondary");
+@FXML
+private void switchToSecondary() throws IOException {
+    App.setRoot("secondary");
     }
+@FXML
+    private void testBaza(ActionEvent event) throws SQLException {
+           Connection connection = DatabaseConnection.getConnection(); 
+    }
+
+
 @FXML
 private void zamknijAplikacjeAction(ActionEvent event) {
 Platform.exit();

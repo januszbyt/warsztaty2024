@@ -55,6 +55,7 @@
             <TextField fx:id="wiek_tekst" layoutX="14.0" layoutY="83.0" promptText="Wiek" />
             <Button fx:id="przycisk_dodaj" layoutX="242.0" layoutY="37.0" mnemonicParsing="false" onAction="#dodajelementAction" text="Dodaj" />
             <Button layoutX="328.0" layoutY="37.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="147.0" text="Wykres" />
+            <Button layoutX="516.0" layoutY="37.0" mnemonicParsing="false" onAction="#testBaza" text="Baza" />
          </children>
       </Pane>
    </bottom>
