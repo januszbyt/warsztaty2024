@@ -34,19 +34,29 @@ public class PrimaryController implements Initializable {
 @FXML private TableView<Osoba> tabela;
 @FXML private TableColumn<Osoba, String> NazwiskoColumn;
 @FXML private TableColumn<Osoba, String> ImieColumn;
-@FXML private TableColumn<Osoba, Double> WiekColumn;
+@FXML private TableColumn<Osoba, String> EmailColumn;
+@FXML private TableColumn<Osoba, String> AdresColumn;
+@FXML private TableColumn<Osoba, String> TelefonColumn;
+@FXML private TableColumn<Osoba, String> NarodowoscColumn;
+@FXML private TableColumn<Osoba, String> ZrodloColumn;
+@FXML private TableColumn<Osoba, String> StatusColumn;
 
 @FXML private TextField nazwisko_tekst;
 @FXML private TextField imie_tekst;
-@FXML private TextField wiek_tekst;
+@FXML private TextField Email_tekst;
+@FXML private TextField Adres_tekst;
+@FXML private TextField Telefon_tekst;
+@FXML private TextField Narodowosc_tekst;
+@FXML private TextField Zrodlo_tekst;
+@FXML private TextField Status_tekst;
 
     
 ObservableList<Osoba> dane = FXCollections.observableArrayList(
-new Osoba("Baran", "Jan", 20.0),
-new Osoba("Nowak", "Maciej", 30.0),
-new Osoba("Nowak", "Anna", 30.0),
-new Osoba("Les", "wacek", 41.0),
-new Osoba("Duda", "Kamil", 21.0)
+new Osoba("Baran", "Jan", "20.0", "Przemysl","111222333","cos","cos","cos"),
+new Osoba("Nowak", "Maciej", "20.0", "Przeworsk","111222333","cos","cos","cos"),
+new Osoba("Nowak", "Anna", "20.0", "Lancut","111222333","cos","cos","cos"),
+new Osoba("Les", "wacek", "20.0", "Rzeszow","111222333","cos","cos","cos"),
+new Osoba("Duda", "Kamil", "20.0", "Jarosław","111222333","cos","cos","cos")
 ); 
 
 @FXML
@@ -73,12 +83,24 @@ Platform.exit();
 private void dodajelementAction(ActionEvent event) {
     String nazwisko = nazwisko_tekst.getText();
     String imie = imie_tekst.getText();
-    String wiek = wiek_tekst.getText();
-    Double w = Double.parseDouble(wiek);
-    dane.add(new Osoba(nazwisko,imie,w));
+    String Email = Email_tekst.getText();
+    String Adres = Adres_tekst.getText();
+    String Telefon = Telefon_tekst.getText();
+    String Narodowosc = Narodowosc_tekst.getText();
+    String Zrodlo = Zrodlo_tekst.getText();
+    String Status = Status_tekst.getText();
+    
+    
+    
+    dane.add(new Osoba(nazwisko,imie,Email,Adres,Telefon,Narodowosc,Zrodlo,Status));
     nazwisko_tekst.clear();
     imie_tekst.clear();
-    wiek_tekst.clear();
+    Email_tekst.clear();
+    Adres_tekst.clear();
+    Telefon_tekst.clear();
+    Narodowosc_tekst.clear();
+    Zrodlo_tekst.clear();
+    Status_tekst.clear();
     }
 @FXML
  private void otworzPlikAction(ActionEvent event) {
@@ -119,8 +141,8 @@ private void dodajelementAction(ActionEvent event) {
 
  //utworzenie obiektu Osoba na podstawie danych odczytanych z jednej linii pliku
  //dodanie obiektu Osoba do listy dane
- Double wiek = Double.parseDouble(attributes[2]);
- Osoba o2 = new Osoba(attributes[0], attributes[1], wiek);
+ 
+ Osoba o2 = new Osoba(attributes[0], attributes[1],attributes[2] ,attributes[3],attributes[4],attributes[5],attributes[6],attributes[7] );
  dane.add(o2);
  // odczyt kolejnej linii z pliku przed powtórzeniem pętli
  //jeżeli dojdziemy do końca pliku obiekt „line” będzie null
@@ -157,7 +179,8 @@ private void zapiszDaneDoPliku(File plik) {
         // Pętla przechodząca przez wszystkie elementy w tabeli
         for (Osoba osoba : tabela.getItems()) {
             // Tworzymy string zawierający dane jednej osoby w formacie: Nazwisko;Imie;Wiek
-            String linia = osoba.getNazwisko() + ";" + osoba.getImie() + ";" + osoba.getWiek() + "\n";
+            String linia = osoba.getNazwisko() + ";" + osoba.getImie() + ";" + osoba.getEmail() + ";" + osoba.getAdres() + ";" + osoba.getTelefon() 
+                    + ";" + osoba.getNarodowosc() + ";" + osoba.getZrodlo() + ";" + osoba.getStatus() + "\n";
             // Zapisujemy tę linię do pliku
             writer.write(linia);
         }
@@ -177,7 +200,17 @@ private void zapiszDaneDoPliku(File plik) {
     ImieColumn.setCellValueFactory(
     new PropertyValueFactory<Osoba, String>("imie"));
     // Powiązanie trzeciej kolumny z polem wiek obiektu typu Osoba
-    WiekColumn.setCellValueFactory(
-    new PropertyValueFactory<Osoba, Double>("wiek"));
+    EmailColumn.setCellValueFactory(
+    new PropertyValueFactory<Osoba, String>("Email"));
+    AdresColumn.setCellValueFactory(
+    new PropertyValueFactory<Osoba, String>("Adres"));
+    TelefonColumn.setCellValueFactory(
+    new PropertyValueFactory<Osoba, String>("Telefon"));
+     NarodowoscColumn.setCellValueFactory(
+    new PropertyValueFactory<Osoba, String>("Narodowosc"));
+      ZrodloColumn.setCellValueFactory(
+    new PropertyValueFactory<Osoba, String>("Zrodlo"));
+       StatusColumn.setCellValueFactory(
+    new PropertyValueFactory<Osoba, String>("Status"));
     }
 }

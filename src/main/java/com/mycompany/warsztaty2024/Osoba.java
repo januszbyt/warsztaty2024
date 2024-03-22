@@ -11,12 +11,22 @@ package com.mycompany.warsztaty2024;
 public class Osoba {
     private String nazwisko;
     private String imie;
-    private double wiek;
+    private String Email;
+    private String Adres;
+    private String Telefon;
+    private String Narodowosc;
+    private String Zrodlo;
+    private String Status;
 
-    public Osoba(String nazwisko, String imie, double wiek) {
+    public Osoba(String nazwisko, String imie, String Email, String Adres,String Telefon,String Narodowosc,String Zrodlo,String Status) {
         this.nazwisko = nazwisko;
         this.imie = imie;
-        this.wiek = wiek;
+        this.Email = Email;
+        this.Adres = Adres;
+        this.Telefon = Telefon;
+        this.Narodowosc = Narodowosc;
+        this.Zrodlo = Zrodlo;
+        this.Status = Status;
     }
 
     public String getNazwisko() {
@@ -27,8 +37,23 @@ public class Osoba {
         return imie;
     }
 
-    public double getWiek() {
-        return wiek;
+    public String getEmail() {
+        return Email;
     }
-    
+    public String getAdres() {
+        return Adres;
+    }
+    public String getTelefon() {
+        return Telefon;
+    }
+    public String getNarodowosc() {
+        return Narodowosc;
+    }
+    public String getZrodlo() {
+        return Zrodlo;
+    }
+    public String getStatus() {
+        return Status;
+    }
+  
 }

@@ -27,12 +27,38 @@
         </menus>
       </MenuBar>
    </top>
-   <left>
-      <TableView fx:id="tabela" prefHeight="375.0" prefWidth="246.0" BorderPane.alignment="CENTER">
+   <bottom>
+      <Pane prefHeight="150.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <StackPane layoutX="14.0" layoutY="14.0">
+               <children>
+                  <TextField fx:id="nazwisko_tekst" promptText="Nazwisko" />
+               </children>
+            </StackPane>
+            <TextField fx:id="imie_tekst" layoutX="14.0" layoutY="49.0" promptText="Imie" />
+            <TextField fx:id="Email_tekst" layoutX="14.0" layoutY="83.0" promptText="Email" />
+            <Button fx:id="przycisk_dodaj" layoutX="415.0" layoutY="83.0" mnemonicParsing="false" onAction="#dodajelementAction" text="Dodaj" />
+            <Button layoutX="439.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="147.0" text="Wykres" />
+            <Button layoutX="545.0" layoutY="83.0" mnemonicParsing="false" onAction="#testBaza" text="Baza" />
+            <TextField fx:id="Adres_tekst" layoutX="14.0" layoutY="120.0" promptText="Adres" />
+            <TextField fx:id="Telefon_tekst" layoutX="172.0" layoutY="14.0" promptText="Telefon" />
+            <TextField fx:id="Narodowosc_tekst" layoutX="172.0" layoutY="49.0" promptText="Narodowosc" />
+            <TextField fx:id="Zrodlo_tekst" layoutX="172.0" layoutY="83.0" promptText="Zrodlo" />
+            <TextField fx:id="Status_tekst" layoutX="172.0" layoutY="120.0" promptText="Status" />
+         </children>
+      </Pane>
+   </bottom>
+   <center>
+      <TableView fx:id="tabela" prefHeight="285.0" prefWidth="600.0" BorderPane.alignment="CENTER">
         <columns>
           <TableColumn fx:id="NazwiskoColumn" prefWidth="77.0" text="Nazwisko" />
-          <TableColumn fx:id="ImieColumn" prefWidth="91.0" text="imie" />
-            <TableColumn fx:id="WiekColumn" prefWidth="75.0" text="wiek" />
+          <TableColumn fx:id="ImieColumn" prefWidth="75.99993896484375" text="imie" />
+            <TableColumn fx:id="EmailColumn" prefWidth="72.79998779296875" text="Email" />
+            <TableColumn fx:id="AdresColumn" prefWidth="71.199951171875" text="Adres" />
+            <TableColumn fx:id="TelefonColumn" prefWidth="68.79998779296875" text="Telefon" />
+            <TableColumn fx:id="NarodowoscColumn" prefWidth="91.20001220703125" text="Narodowosc" />
+            <TableColumn fx:id="ZrodloColumn" prefWidth="68.0" text="Zrodlo" />
+            <TableColumn fx:id="StatusColumn" prefWidth="75.0" text="Status" />
         </columns>
          <contextMenu>
             <ContextMenu>
@@ -42,21 +68,5 @@
             </ContextMenu>
          </contextMenu>
       </TableView>
-   </left>
-   <bottom>
-      <Pane prefHeight="122.0" prefWidth="600.0" BorderPane.alignment="CENTER">
-         <children>
-            <StackPane layoutX="14.0" layoutY="14.0">
-               <children>
-                  <TextField fx:id="nazwisko_tekst" promptText="Nazwisko" />
-               </children>
-            </StackPane>
-            <TextField fx:id="imie_tekst" layoutX="14.0" layoutY="49.0" promptText="Imie" />
-            <TextField fx:id="wiek_tekst" layoutX="14.0" layoutY="83.0" promptText="Wiek" />
-            <Button fx:id="przycisk_dodaj" layoutX="242.0" layoutY="37.0" mnemonicParsing="false" onAction="#dodajelementAction" text="Dodaj" />
-            <Button layoutX="328.0" layoutY="37.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="147.0" text="Wykres" />
-            <Button layoutX="516.0" layoutY="37.0" mnemonicParsing="false" onAction="#testBaza" text="Baza" />
-         </children>
-      </Pane>
-   </bottom>
+   </center>
 </BorderPane>
