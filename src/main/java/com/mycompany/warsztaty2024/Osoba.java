@@ -17,8 +17,9 @@ public class Osoba {
     private String Narodowosc;
     private String Zrodlo;
     private String Status;
+    private String Link;
 
-    public Osoba(String nazwisko, String imie, String Email, String Adres,String Telefon,String Narodowosc,String Zrodlo,String Status) {
+    public Osoba(String nazwisko, String imie, String Email, String Adres,String Telefon,String Narodowosc,String Zrodlo,String Status,String Link) {
         this.nazwisko = nazwisko;
         this.imie = imie;
         this.Email = Email;
@@ -27,6 +28,7 @@ public class Osoba {
         this.Narodowosc = Narodowosc;
         this.Zrodlo = Zrodlo;
         this.Status = Status;
+        this.Link = Link;
     }
 
     public String getNazwisko() {
@@ -55,5 +57,7 @@ public class Osoba {
     public String getStatus() {
         return Status;
     }
-  
+    public String getLink() {
+        return Link;
+    }
 }

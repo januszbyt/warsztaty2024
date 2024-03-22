@@ -11,13 +11,17 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -40,6 +44,7 @@ public class PrimaryController implements Initializable {
 @FXML private TableColumn<Osoba, String> NarodowoscColumn;
 @FXML private TableColumn<Osoba, String> ZrodloColumn;
 @FXML private TableColumn<Osoba, String> StatusColumn;
+@FXML private TableColumn<Osoba, String> LinkColumn;
 
 @FXML private TextField nazwisko_tekst;
 @FXML private TextField imie_tekst;
@@ -49,24 +54,78 @@ public class PrimaryController implements Initializable {
 @FXML private TextField Narodowosc_tekst;
 @FXML private TextField Zrodlo_tekst;
 @FXML private TextField Status_tekst;
+@FXML private TextField Link_tekst;
 
     
 ObservableList<Osoba> dane = FXCollections.observableArrayList(
-new Osoba("Baran", "Jan", "20.0", "Przemysl","111222333","cos","cos","cos"),
-new Osoba("Nowak", "Maciej", "20.0", "Przeworsk","111222333","cos","cos","cos"),
-new Osoba("Nowak", "Anna", "20.0", "Lancut","111222333","cos","cos","cos"),
-new Osoba("Les", "wacek", "20.0", "Rzeszow","111222333","cos","cos","cos"),
-new Osoba("Duda", "Kamil", "20.0", "Jarosław","111222333","cos","cos","cos")
-); 
+new Osoba("", "", "", "","","","","","")
+
+        ); 
 
 @FXML
 private void switchToSecondary() throws IOException {
     App.setRoot("secondary");
     }
+
 @FXML
-    private void testBaza(ActionEvent event) throws SQLException {
-           Connection connection = DatabaseConnection.getConnection(); 
-    }
+private void testBaza(ActionEvent event) {
+    Task<Void> task = new Task<Void>() {
+        @Override
+        protected Void call() throws Exception {
+            try {
+                // Pobierz połączenie z bazą danych
+                Connection connection = DatabaseConnection.getConnection(); 
+
+                // Utwórz zapytanie SQL
+                String query = "SELECT * FROM pracownik";
+
+                // Utwórz obiekt Statement
+                try (Statement statement = connection.createStatement()) {
+                    // Wykonaj zapytanie
+                    ResultSet resultSet = statement.executeQuery(query);
+
+                    // Lista do przechowywania pobranych danych
+                    ObservableList<Osoba> osoby = FXCollections.observableArrayList();
+
+                    // Przejdź przez wyniki zapytania i dodaj je do listy
+                    while (resultSet.next()) {
+                        String nazwisko = resultSet.getString("nazwisko");
+                        String imie = resultSet.getString("imie");
+                        String email = resultSet.getString("email");
+                        String adres = resultSet.getString("adres");
+                        String telefon = resultSet.getString("telefon");
+                        String narodowosc = resultSet.getString("narodowosc");
+                        String zrodlo = resultSet.getString("zrodlo");
+                        String status = resultSet.getString("status");
+                        String link = resultSet.getString("link");
+
+                        Osoba osoba = new Osoba(nazwisko, imie, email, adres, telefon, narodowosc, zrodlo, status, link);
+                        osoby.add(osoba);
+                    }
+
+                    // Zamknij zasoby
+                    resultSet.close();
+
+                    // Aktualizuj interfejs użytkownika na głównym wątku
+                    Platform.runLater(() -> {
+                        // Wyczyść dane w tabeli
+                        tabela.getItems().clear();
+
+                        // Dodaj wszystkie pobrane osoby do tabeli
+                        tabela.getItems().addAll(osoby);
+                    });
+                }
+
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    };
+
+    new Thread(task).start();
+}
 
 
 @FXML
@@ -89,10 +148,11 @@ private void dodajelementAction(ActionEvent event) {
     String Narodowosc = Narodowosc_tekst.getText();
     String Zrodlo = Zrodlo_tekst.getText();
     String Status = Status_tekst.getText();
+    String Link = Link_tekst.getText();
     
     
     
-    dane.add(new Osoba(nazwisko,imie,Email,Adres,Telefon,Narodowosc,Zrodlo,Status));
+    dane.add(new Osoba(nazwisko,imie,Email,Adres,Telefon,Narodowosc,Zrodlo,Status,Link));
     nazwisko_tekst.clear();
     imie_tekst.clear();
     Email_tekst.clear();
@@ -101,28 +161,9 @@ private void dodajelementAction(ActionEvent event) {
     Narodowosc_tekst.clear();
     Zrodlo_tekst.clear();
     Status_tekst.clear();
+    Link_tekst.clear();
     }
-@FXML
- private void otworzPlikAction(ActionEvent event) {
- // Tworzymy kontrolkę (okienko) służącą do wybierania pliku
- FileChooser fileChooser = new FileChooser();
- // Tytuł okienka
- fileChooser.setTitle("Otwórz Plik");
- // Dodajemy filtr rodzaju pliku - tu plików txt
- fileChooser.getExtensionFilters().add(
- new ExtensionFilter("Pliki TXT", "*.txt")
- );
- // Pokaż okno
- File plik = fileChooser.showOpenDialog(stage);
- // Jeśli zamkniemy fileChooser nie wybierając pliku zostanie zwrócony null
- // Jeśli wybierzemy plik, podejmujemy odpowiednie działania
- if (plik != null) {
- // Wyswietlenie w terminalu ścieżki do pliku.
- System.out.println("Plik: "+ plik.getAbsolutePath());
- //wywołanie funkcji odczytującej dane z pliku
- ladujDane(plik.getAbsolutePath());
- }
- }
+
 
  private void ladujDane(String filename) {
  List<Osoba> books = new ArrayList<>();
@@ -142,7 +183,7 @@ private void dodajelementAction(ActionEvent event) {
  //utworzenie obiektu Osoba na podstawie danych odczytanych z jednej linii pliku
  //dodanie obiektu Osoba do listy dane
  
- Osoba o2 = new Osoba(attributes[0], attributes[1],attributes[2] ,attributes[3],attributes[4],attributes[5],attributes[6],attributes[7] );
+ Osoba o2 = new Osoba(attributes[0], attributes[1],attributes[2] ,attributes[3],attributes[4],attributes[5],attributes[6],attributes[7],attributes[8] );
  dane.add(o2);
  // odczyt kolejnej linii z pliku przed powtórzeniem pętli
  //jeżeli dojdziemy do końca pliku obiekt „line” będzie null
@@ -153,41 +194,115 @@ private void dodajelementAction(ActionEvent event) {
  }
  }
 
- @FXML
-private void zapiszDoPlikuAction(ActionEvent event) {
-    // Tworzymy kontrolkę (okienko) służącą do wybierania miejsca zapisu pliku
-    FileChooser fileChooser = new FileChooser();
-    // Tytuł okienka
-    fileChooser.setTitle("Zapisz Plik");
-    // Dodajemy filtr rodzaju pliku - tu plików txt
-    fileChooser.getExtensionFilters().add(
-        new ExtensionFilter("Pliki TXT", "*.txt")
-    );
-    // Pokaż okno
-    File plik = fileChooser.showSaveDialog(stage);
-    
-    // Jeśli zamkniemy fileChooser nie wybierając miejsca zapisu zostanie zwrócony null
-    // Jeśli wybierzemy miejsce zapisu, podejmujemy odpowiednie działania
-    if (plik != null) {
-        // Wywołanie funkcji zapisującej dane do pliku
-        zapiszDaneDoPliku(plik);
-    }
-}
+@FXML
+private void zapiszDoBazy(ActionEvent event) {
+    Task<Void> task = new Task<Void>() {
+        @Override
+        protected Void call() throws Exception {
+            try {
+                // Pobierz połączenie z bazą danych
+                Connection connection = DatabaseConnection.getConnection(); 
 
-private void zapiszDaneDoPliku(File plik) {
-    try (BufferedWriter writer = new BufferedWriter(new FileWriter(plik))) {
-        // Pętla przechodząca przez wszystkie elementy w tabeli
-        for (Osoba osoba : tabela.getItems()) {
-            // Tworzymy string zawierający dane jednej osoby w formacie: Nazwisko;Imie;Wiek
-            String linia = osoba.getNazwisko() + ";" + osoba.getImie() + ";" + osoba.getEmail() + ";" + osoba.getAdres() + ";" + osoba.getTelefon() 
-                    + ";" + osoba.getNarodowosc() + ";" + osoba.getZrodlo() + ";" + osoba.getStatus() + "\n";
-            // Zapisujemy tę linię do pliku
-            writer.write(linia);
+                // Utwórz zapytanie SQL
+                String query = "INSERT INTO pracownik (nazwisko, imie, email, adres, telefon, narodowosc, zrodlo, status,link) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+                // Utwórz prepared statement
+                try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                    // Ustaw wartości parametrów
+                    preparedStatement.setString(1, nazwisko_tekst.getText());
+                    preparedStatement.setString(2, imie_tekst.getText());
+                    preparedStatement.setString(3, Email_tekst.getText());
+                    preparedStatement.setString(4, Adres_tekst.getText());
+                    preparedStatement.setString(5, Telefon_tekst.getText());
+                    preparedStatement.setString(6, Narodowosc_tekst.getText());
+                    preparedStatement.setString(7, Zrodlo_tekst.getText());
+                    preparedStatement.setString(8, Status_tekst.getText());
+                    preparedStatement.setString(9, Link_tekst.getText());
+
+                    // Wykonaj zapytanie
+                    preparedStatement.executeUpdate();
+                }
+
+                // Zamknij połączenie
+                connection.close();
+
+                // Aktualizuj interfejs użytkownika na głównym wątku
+                Platform.runLater(() -> {
+                    // Dodaj wpisane dane do tabeli
+                    dane.add(new Osoba(nazwisko_tekst.getText(), imie_tekst.getText(), Email_tekst.getText(), Adres_tekst.getText(), Telefon_tekst.getText(), Narodowosc_tekst.getText(), Zrodlo_tekst.getText(), Status_tekst.getText(),Link_tekst.getText()));
+                    
+                    // Wyczyść pola tekstowe
+                    nazwisko_tekst.clear();
+                    imie_tekst.clear();
+                    Email_tekst.clear();
+                    Adres_tekst.clear();
+                    Telefon_tekst.clear();
+                    Narodowosc_tekst.clear();
+                    Zrodlo_tekst.clear();
+                    Status_tekst.clear();
+                    Link_tekst.clear();
+                });
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return null;
         }
-    } catch (IOException e) {
-        e.printStackTrace();
+    };
+
+    new Thread(task).start();
+}
+    @FXML
+private void usunZBazy(ActionEvent event) {
+    // Pobierz zaznaczony wiersz w tabeli
+    Osoba wybranaOsoba = tabela.getSelectionModel().getSelectedItem();
+
+    // Sprawdź, czy coś jest zaznaczone
+    if (wybranaOsoba != null) {
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                try {
+                    // Pobierz połączenie z bazą danych
+                    Connection connection = DatabaseConnection.getConnection();
+
+                    // Utwórz zapytanie SQL
+                    String query = "DELETE FROM pracownik WHERE nazwisko = ? AND imie = ?";
+
+                    // Utwórz prepared statement
+                    try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                        // Ustaw parametry
+                        preparedStatement.setString(1, wybranaOsoba.getNazwisko());
+                        preparedStatement.setString(2, wybranaOsoba.getImie());
+
+                        // Wykonaj zapytanie
+                        preparedStatement.executeUpdate();
+                    }
+
+                    // Zamknij połączenie
+                    connection.close();
+
+                    // Aktualizuj interfejs użytkownika na głównym wątku
+                    Platform.runLater(() -> {
+                        // Usuń zaznaczony wiersz z tabeli
+                        tabela.getItems().remove(wybranaOsoba);
+                    });
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        };
+
+        new Thread(task).start();
+    } else {
+        // Jeśli nic nie jest zaznaczone, wyświetl komunikat
+        // Tutaj możesz dodać dowolną obsługę, np. wyświetlić alert z informacją dla użytkownika
     }
 }
+    
+    
+    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) 
     {
@@ -212,5 +327,7 @@ private void zapiszDaneDoPliku(File plik) {
     new PropertyValueFactory<Osoba, String>("Zrodlo"));
        StatusColumn.setCellValueFactory(
     new PropertyValueFactory<Osoba, String>("Status"));
+        LinkColumn.setCellValueFactory(
+    new PropertyValueFactory<Osoba, String>("Link"));
     }
 }
