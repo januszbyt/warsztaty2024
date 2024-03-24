@@ -60,23 +60,25 @@ public class PrimaryController implements Initializable {
 @FXML private TextField Status_tekst;
 @FXML private TextField Link_tekst;
 
-    
+
 ObservableList<Osoba> dane = FXCollections.observableArrayList(
 new Osoba(1, "", "", "","","","","","","")
 
         ); 
 
+
 @FXML
-private void switchToSecondary() throws IOException {
- //Create Stage
-Stage newWindow = new Stage();
-newWindow.setTitle("New Scene");
-//Create view from FXML
-FXMLLoader loader = new FXMLLoader(getClass().getResource("karta_kierowcy.fxml"));
-//Set view in window
-newWindow.setScene(new Scene(loader.load()));
-//Launch
-newWindow.show();
+private void switchToKarta_Kierowcy() throws IOException {
+    
+    //Create Stage
+    Stage newWindow = new Stage();
+    newWindow.setTitle("Karta kierowcy");
+    //Create view from FXML
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("Karta_Kierowcy.fxml"));
+    //Set view in window
+    newWindow.setScene(new Scene(loader.load()));
+    //Launch
+    newWindow.show();
     }
 
 @FXML
