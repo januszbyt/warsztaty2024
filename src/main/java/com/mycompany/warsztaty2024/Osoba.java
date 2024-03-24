@@ -9,6 +9,7 @@ package com.mycompany.warsztaty2024;
  * @author s40483
  */
 public class Osoba {
+    private int ID;
     private String nazwisko;
     private String imie;
     private String Email;
@@ -19,7 +20,8 @@ public class Osoba {
     private String Status;
     private String Link;
 
-    public Osoba(String nazwisko, String imie, String Email, String Adres,String Telefon,String Narodowosc,String Zrodlo,String Status,String Link) {
+    public Osoba(int ID,String nazwisko, String imie, String Email, String Adres,String Telefon,String Narodowosc,String Zrodlo,String Status,String Link) {
+        this.ID = ID;
         this.nazwisko = nazwisko;
         this.imie = imie;
         this.Email = Email;
@@ -31,6 +33,9 @@ public class Osoba {
         this.Link = Link;
     }
 
+    public int getID() {
+        return ID;
+    }
     public String getNazwisko() {
         return nazwisko;
     }

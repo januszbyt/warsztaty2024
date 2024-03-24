@@ -12,9 +12,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="459.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.warsztaty2024.PrimaryController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="490.0" prefWidth="738.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.warsztaty2024.PrimaryController">
    <top>
-      <MenuBar BorderPane.alignment="CENTER">
+      <MenuBar prefHeight="0.0" prefWidth="604.0" BorderPane.alignment="CENTER">
         <menus>
           <Menu mnemonicParsing="false" text="Baza">
             <items>
@@ -45,21 +45,23 @@
             <TextField fx:id="Zrodlo_tekst" layoutX="172.0" layoutY="83.0" promptText="Zrodlo" />
             <TextField fx:id="Status_tekst" layoutX="172.0" layoutY="120.0" promptText="Status" />
             <TextField fx:id="Link_tekst" layoutX="329.0" layoutY="14.0" promptText="Link" />
+            <Button layoutX="340.0" layoutY="107.0" mnemonicParsing="false" onAction="#switchToSecondary" text="Dodawanie " />
          </children>
       </Pane>
    </bottom>
    <center>
-      <TableView fx:id="tabela" prefHeight="285.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+      <TableView fx:id="tabela" prefHeight="283.0" prefWidth="650.0" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn fx:id="NazwiskoColumn" prefWidth="59.20001220703125" text="Nazwisko" />
-          <TableColumn fx:id="ImieColumn" prefWidth="68.0" text="imie" />
-            <TableColumn fx:id="EmailColumn" prefWidth="68.79998779296875" text="Email" />
-            <TableColumn fx:id="AdresColumn" prefWidth="72.79998779296875" text="Adres" />
-            <TableColumn fx:id="TelefonColumn" prefWidth="79.20001220703125" text="Telefon" />
-            <TableColumn fx:id="NarodowoscColumn" prefWidth="80.79998779296875" text="Narodowosc" />
-            <TableColumn fx:id="ZrodloColumn" prefWidth="71.20001220703125" text="Zrodlo" />
-            <TableColumn fx:id="StatusColumn" prefWidth="52.800048828125" text="Status" />
-            <TableColumn fx:id="LinkColumn" prefWidth="40.800048828125" text="Link" />
+            <TableColumn fx:id="IDColumn" prefWidth="35.99996793270111" text="ID" />
+          <TableColumn fx:id="NazwiskoColumn" prefWidth="72.0" text="Nazwisko" />
+          <TableColumn fx:id="ImieColumn" prefWidth="80.79999542236328" text="imie" />
+            <TableColumn fx:id="EmailColumn" prefWidth="85.5999755859375" text="Email" />
+            <TableColumn fx:id="AdresColumn" prefWidth="87.20001220703125" text="Adres" />
+            <TableColumn fx:id="TelefonColumn" prefWidth="67.20001220703125" text="Telefon" />
+            <TableColumn fx:id="NarodowoscColumn" prefWidth="85.59994506835938" text="Narodowosc" />
+            <TableColumn fx:id="ZrodloColumn" prefWidth="68.800048828125" text="Zrodlo" />
+            <TableColumn fx:id="StatusColumn" prefWidth="71.99993896484375" text="Status" />
+            <TableColumn fx:id="LinkColumn" prefWidth="82.4000244140625" text="Link" />
         </columns>
          <contextMenu>
             <ContextMenu>

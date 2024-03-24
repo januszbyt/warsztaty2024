@@ -24,7 +24,9 @@ import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -36,6 +38,7 @@ import javafx.stage.Stage;
 public class PrimaryController implements Initializable {
 @FXML private Stage stage;
 @FXML private TableView<Osoba> tabela;
+@FXML private TableColumn<Osoba, Integer> IDColumn;
 @FXML private TableColumn<Osoba, String> NazwiskoColumn;
 @FXML private TableColumn<Osoba, String> ImieColumn;
 @FXML private TableColumn<Osoba, String> EmailColumn;
@@ -46,6 +49,7 @@ public class PrimaryController implements Initializable {
 @FXML private TableColumn<Osoba, String> StatusColumn;
 @FXML private TableColumn<Osoba, String> LinkColumn;
 
+@FXML private TextField ID_tekst;
 @FXML private TextField nazwisko_tekst;
 @FXML private TextField imie_tekst;
 @FXML private TextField Email_tekst;
@@ -58,24 +62,34 @@ public class PrimaryController implements Initializable {
 
     
 ObservableList<Osoba> dane = FXCollections.observableArrayList(
-new Osoba("", "", "", "","","","","","")
+new Osoba(1, "", "", "","","","","","","")
 
         ); 
 
 @FXML
 private void switchToSecondary() throws IOException {
-    App.setRoot("secondary");
+ //Create Stage
+Stage newWindow = new Stage();
+newWindow.setTitle("New Scene");
+//Create view from FXML
+FXMLLoader loader = new FXMLLoader(getClass().getResource("karta_kierowcy.fxml"));
+//Set view in window
+newWindow.setScene(new Scene(loader.load()));
+//Launch
+newWindow.show();
     }
 
 @FXML
 private void testBaza(ActionEvent event) {
-    Task<Void> task = new Task<Void>() {
+    Task<Void> task;
+    task = new Task<Void>() {
         @Override
         protected Void call() throws Exception {
             try {
+                dane.clear();
                 // Pobierz połączenie z bazą danych
-                Connection connection = DatabaseConnection.getConnection(); 
-
+                Connection connection = DatabaseConnection.getConnection();
+                
                 // Utwórz zapytanie SQL
                 String query = "SELECT * FROM pracownik";
 
@@ -89,6 +103,7 @@ private void testBaza(ActionEvent event) {
 
                     // Przejdź przez wyniki zapytania i dodaj je do listy
                     while (resultSet.next()) {
+                        int pracownik_id = resultSet.getInt("pracownik_id");
                         String nazwisko = resultSet.getString("nazwisko");
                         String imie = resultSet.getString("imie");
                         String email = resultSet.getString("email");
@@ -98,9 +113,9 @@ private void testBaza(ActionEvent event) {
                         String zrodlo = resultSet.getString("zrodlo");
                         String status = resultSet.getString("status");
                         String link = resultSet.getString("link");
-
-                        Osoba osoba = new Osoba(nazwisko, imie, email, adres, telefon, narodowosc, zrodlo, status, link);
-                        osoby.add(osoba);
+                        dane.add(new Osoba(pracownik_id,nazwisko, imie, email, adres, telefon, narodowosc, zrodlo, status, link));
+                        //Osoba osoba = new Osoba(pracownik_id,nazwisko, imie, email, adres, telefon, narodowosc, zrodlo, status, link);
+                        //osoby.add(osoba);
                     }
 
                     // Zamknij zasoby
@@ -109,7 +124,7 @@ private void testBaza(ActionEvent event) {
                     // Aktualizuj interfejs użytkownika na głównym wątku
                     Platform.runLater(() -> {
                         // Wyczyść dane w tabeli
-                        tabela.getItems().clear();
+                       
 
                         // Dodaj wszystkie pobrane osoby do tabeli
                         tabela.getItems().addAll(osoby);
@@ -137,9 +152,10 @@ Platform.exit();
     private void usunelementAction(ActionEvent event) {
         dane.remove(tabela.getSelectionModel().getSelectedItem());
     }
-
+/*
 @FXML
 private void dodajelementAction(ActionEvent event) {
+    int ID = ID_tekst.getText();
     String nazwisko = nazwisko_tekst.getText();
     String imie = imie_tekst.getText();
     String Email = Email_tekst.getText();
@@ -152,7 +168,8 @@ private void dodajelementAction(ActionEvent event) {
     
     
     
-    dane.add(new Osoba(nazwisko,imie,Email,Adres,Telefon,Narodowosc,Zrodlo,Status,Link));
+    dane.add(new Osoba(ID,nazwisko,imie,Email,Adres,Telefon,Narodowosc,Zrodlo,Status,Link));
+    ID_tekst.clear();
     nazwisko_tekst.clear();
     imie_tekst.clear();
     Email_tekst.clear();
@@ -183,7 +200,7 @@ private void dodajelementAction(ActionEvent event) {
  //utworzenie obiektu Osoba na podstawie danych odczytanych z jednej linii pliku
  //dodanie obiektu Osoba do listy dane
  
- Osoba o2 = new Osoba(attributes[0], attributes[1],attributes[2] ,attributes[3],attributes[4],attributes[5],attributes[6],attributes[7],attributes[8] );
+ Osoba o2 = new Osoba(attributes[0], attributes[1],attributes[2] ,attributes[3],attributes[4],attributes[5],attributes[6],attributes[7],attributes[8],attributes[9] );
  dane.add(o2);
  // odczyt kolejnej linii z pliku przed powtórzeniem pętli
  //jeżeli dojdziemy do końca pliku obiekt „line” będzie null
@@ -193,7 +210,7 @@ private void dodajelementAction(ActionEvent event) {
  ioe.printStackTrace();
  }
  }
-
+*/
 @FXML
 private void zapiszDoBazy(ActionEvent event) {
     Task<Void> task = new Task<Void>() {
@@ -209,6 +226,7 @@ private void zapiszDoBazy(ActionEvent event) {
                 // Utwórz prepared statement
                 try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                     // Ustaw wartości parametrów
+                    
                     preparedStatement.setString(1, nazwisko_tekst.getText());
                     preparedStatement.setString(2, imie_tekst.getText());
                     preparedStatement.setString(3, Email_tekst.getText());
@@ -221,6 +239,7 @@ private void zapiszDoBazy(ActionEvent event) {
 
                     // Wykonaj zapytanie
                     preparedStatement.executeUpdate();
+                    testBaza(event);
                 }
 
                 // Zamknij połączenie
@@ -229,9 +248,10 @@ private void zapiszDoBazy(ActionEvent event) {
                 // Aktualizuj interfejs użytkownika na głównym wątku
                 Platform.runLater(() -> {
                     // Dodaj wpisane dane do tabeli
-                    dane.add(new Osoba(nazwisko_tekst.getText(), imie_tekst.getText(), Email_tekst.getText(), Adres_tekst.getText(), Telefon_tekst.getText(), Narodowosc_tekst.getText(), Zrodlo_tekst.getText(), Status_tekst.getText(),Link_tekst.getText()));
+                  //  dane.add(new Osoba(ID_tekst.getTest(),nazwisko_tekst.getText(), imie_tekst.getText(), Email_tekst.getText(), Adres_tekst.getText(), Telefon_tekst.getText(), Narodowosc_tekst.getText(), Zrodlo_tekst.getText(), Status_tekst.getText(),Link_tekst.getText()));
                     
                     // Wyczyść pola tekstowe
+                    ID_tekst.clear();
                     nazwisko_tekst.clear();
                     imie_tekst.clear();
                     Email_tekst.clear();
@@ -241,9 +261,12 @@ private void zapiszDoBazy(ActionEvent event) {
                     Zrodlo_tekst.clear();
                     Status_tekst.clear();
                     Link_tekst.clear();
+                    
+                    
                 });
             } catch (SQLException e) {
                 e.printStackTrace();
+                
             }
             return null;
         }
@@ -266,13 +289,13 @@ private void usunZBazy(ActionEvent event) {
                     Connection connection = DatabaseConnection.getConnection();
 
                     // Utwórz zapytanie SQL
-                    String query = "DELETE FROM pracownik WHERE nazwisko = ? AND imie = ?";
+                    String query = "DELETE FROM pracownik WHERE pracownik_id=?";
 
                     // Utwórz prepared statement
                     try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                         // Ustaw parametry
-                        preparedStatement.setString(1, wybranaOsoba.getNazwisko());
-                        preparedStatement.setString(2, wybranaOsoba.getImie());
+                        preparedStatement.setInt(1, wybranaOsoba.getID());
+                       
 
                         // Wykonaj zapytanie
                         preparedStatement.executeUpdate();
@@ -309,6 +332,8 @@ private void usunZBazy(ActionEvent event) {
     // Ustawienie danych dla tabeli
     tabela.itemsProperty().setValue(dane);
     // Powiązanie pierwszej kolumny z polem nazwisko obiektu typu Osoba
+    IDColumn.setCellValueFactory(
+    new PropertyValueFactory<Osoba, Integer>("ID"));
     NazwiskoColumn.setCellValueFactory(
     new PropertyValueFactory<Osoba, String>("nazwisko"));
     // Powiązanie drugiej kolumny z polem Imie obiektu typu Osoba
@@ -329,5 +354,8 @@ private void usunZBazy(ActionEvent event) {
     new PropertyValueFactory<Osoba, String>("Status"));
         LinkColumn.setCellValueFactory(
     new PropertyValueFactory<Osoba, String>("Link"));
+        
+        tabela.setItems(dane);
+ 
     }
 }
