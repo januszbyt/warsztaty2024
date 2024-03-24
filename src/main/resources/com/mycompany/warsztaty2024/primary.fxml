@@ -12,9 +12,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="490.0" prefWidth="738.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.warsztaty2024.PrimaryController">
+<BorderPane prefHeight="593.0" prefWidth="843.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.warsztaty2024.PrimaryController">
    <top>
-      <MenuBar prefHeight="0.0" prefWidth="604.0" BorderPane.alignment="CENTER">
+      <MenuBar maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
         <menus>
           <Menu mnemonicParsing="false" text="Baza">
             <items>
@@ -36,21 +36,21 @@
             </StackPane>
             <TextField fx:id="imie_tekst" layoutX="14.0" layoutY="49.0" promptText="Imie" />
             <TextField fx:id="Email_tekst" layoutX="14.0" layoutY="83.0" promptText="Email" />
-            <Button fx:id="przycisk_dodaj" layoutX="478.0" layoutY="107.0" mnemonicParsing="false" onAction="#zapiszDoBazy" text="Dodaj" />
-            <Button fx:id="karta_kierowcy" layoutX="439.0" layoutY="61.0" mnemonicParsing="false" onAction="#switchToKarta_Kierowcy" prefHeight="25.0" prefWidth="147.0" text="Dodaj kartę kierowcy" />
-            <Button layoutX="545.0" layoutY="107.0" mnemonicParsing="false" onAction="#testBaza" text="Baza" />
+            <Button fx:id="przycisk_dodaj" layoutX="345.0" layoutY="108.0" mnemonicParsing="false" onAction="#zapiszDoBazy" text="Dodaj" />
+            <Button fx:id="karta_kierowcy" layoutX="346.0" layoutY="62.0" mnemonicParsing="false" onAction="#switchToKarta_Kierowcy" prefHeight="25.0" prefWidth="147.0" text="Dodaj kartę kierowcy" />
+            <Button layoutX="419.0" layoutY="108.0" mnemonicParsing="false" onAction="#testBaza" text="Baza" />
             <TextField fx:id="Adres_tekst" layoutX="14.0" layoutY="120.0" promptText="Adres" />
             <TextField fx:id="Telefon_tekst" layoutX="172.0" layoutY="14.0" promptText="Telefon" />
             <TextField fx:id="Narodowosc_tekst" layoutX="172.0" layoutY="49.0" promptText="Narodowosc" />
             <TextField fx:id="Zrodlo_tekst" layoutX="172.0" layoutY="83.0" promptText="Zrodlo" />
             <TextField fx:id="Status_tekst" layoutX="172.0" layoutY="120.0" promptText="Status" />
             <TextField fx:id="Link_tekst" layoutX="329.0" layoutY="14.0" promptText="Link" />
-            <Button layoutX="340.0" layoutY="107.0" mnemonicParsing="false" text="Dodawanie " />
+            <Button layoutX="532.0" layoutY="14.0" mnemonicParsing="false" onAction="#open_Szczegol" text="Szczegóły" />
          </children>
       </Pane>
    </bottom>
    <center>
-      <TableView fx:id="tabela" prefHeight="283.0" prefWidth="650.0" BorderPane.alignment="CENTER">
+      <TableView fx:id="tabela" prefHeight="315.0" prefWidth="843.0" BorderPane.alignment="CENTER">
         <columns>
             <TableColumn fx:id="IDColumn" prefWidth="35.99996793270111" text="ID" />
           <TableColumn fx:id="NazwiskoColumn" prefWidth="72.0" text="Nazwisko" />

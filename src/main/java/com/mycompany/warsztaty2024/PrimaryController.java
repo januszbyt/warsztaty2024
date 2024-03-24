@@ -82,6 +82,18 @@ private void switchToKarta_Kierowcy() throws IOException {
     }
 
 @FXML
+private void open_Szczegol() throws IOException  
+    {
+        Stage newWindow = new Stage();
+        newWindow.setTitle("Dane Szczegółowe");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("szczegol.fxml"));
+        newWindow.setScene(new Scene(loader.load()));
+        newWindow.show();
+    }
+
+
+
+@FXML
 private void testBaza(ActionEvent event) {
     Task<Void> task;
     task = new Task<Void>() {
@@ -358,6 +370,6 @@ private void usunZBazy(ActionEvent event) {
     new PropertyValueFactory<Osoba, String>("Link"));
         
         tabela.setItems(dane);
- 
+        testBaza(null);
     }
 }
