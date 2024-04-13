@@ -28,5 +28,6 @@
             <Font size="13.0" />
          </font>
       </Label>
+      <TextField fx:id="id_pracownika" layoutX="254.0" layoutY="79.0" prefHeight="25.0" prefWidth="50.0" promptText="ID" />
    </children>
 </AnchorPane>

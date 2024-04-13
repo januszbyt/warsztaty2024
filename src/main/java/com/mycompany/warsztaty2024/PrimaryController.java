@@ -66,9 +66,11 @@ new Osoba(1, "", "", "","","","","","","")
 
         ); 
 
+public static Osoba wybranaOsobaDalej;
 
 @FXML
 private void switchToKarta_Kierowcy() throws IOException {
+    
     
     //Create Stage
     Stage newWindow = new Stage();
@@ -84,6 +86,7 @@ private void switchToKarta_Kierowcy() throws IOException {
 @FXML
 private void open_Szczegol() throws IOException  
     {
+        wybranaOsobaDalej = tabela.getSelectionModel().getSelectedItem();
         Stage newWindow = new Stage();
         newWindow.setTitle("Dane Szczegółowe");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("szczegol.fxml"));

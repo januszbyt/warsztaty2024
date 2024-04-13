@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -8,13 +9,16 @@
 
 <AnchorPane id="AnchorPane" prefHeight="658.0" prefWidth="944.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.warsztaty2024.SzczegolController">
    <children>
-      <TextField layoutX="111.0" layoutY="36.0" />
-      <Label layoutX="25.0" layoutY="40.0" text="Nazwisko" />
-      <Label layoutX="25.0" layoutY="79.0" text="Imię" />
-      <TextField layoutX="111.0" layoutY="75.0" />
+      <TextField fx:id="nazwiskoszcz" layoutX="112.0" layoutY="74.0" />
+      <Label layoutX="26.0" layoutY="78.0" text="Nazwisko" />
+      <Label layoutX="26.0" layoutY="117.0" text="Imię" />
+      <TextField layoutX="112.0" layoutY="113.0" />
       <ImageView fx:id="myimage" fitHeight="336.0" fitWidth="306.0" layoutX="76.0" layoutY="208.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="114.0" AnchorPane.leftAnchor="76.0" AnchorPane.rightAnchor="875.9386901855469" AnchorPane.topAnchor="208.0">
          <image>
             <Image url="@R.jpg" />
          </image></ImageView>
+      <Button fx:id="karta_kierowca" layoutX="401.0" layoutY="36.0" mnemonicParsing="false" onAction="#switchToKarta_Kierowcy" text="Karta kierowcy" />
+      <TextField fx:id="idszcz" layoutX="112.0" layoutY="36.0" />
+      <Label layoutX="26.0" layoutY="40.0" text="ID" />
    </children>
 </AnchorPane>

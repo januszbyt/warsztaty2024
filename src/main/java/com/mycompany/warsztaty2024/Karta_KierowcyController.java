@@ -29,6 +29,10 @@ public class Karta_KierowcyController implements Initializable {
     @FXML private DatePicker data_waznosci;
     
     @FXML private TextField numer_karty;
+    @FXML private TextField id_pracownika;
+    
+    
+
     
     
     @FXML
@@ -49,10 +53,31 @@ public class Karta_KierowcyController implements Initializable {
         } catch (SQLException el) {
             el.printStackTrace();
         }
+        numer_karty.clear();
+        data_wydania.setValue(null);
+        data_waznosci.setValue(null);
     }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        id_pracownika.setText(String.valueOf(SzczegolController.pracownik_id));
+        
+        try {
+            Connection connection = DatabaseConnection.getConnection();
+            
+            String query = "SELECT * FROM karty_kierowcy WHERE pracownik_id=?";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, SzczegolController.pracownik_id);
+            ResultSet result = ps.executeQuery();
+            while(result.next()) {
+                data_waznosci.setValue(result.getDate("data_waznosci").toLocalDate());
+                data_wydania.setValue(result.getDate("data_wydania").toLocalDate());
+                numer_karty.setText(result.getString("numer"));
+            }
+        } catch (SQLException el) {
+            el.printStackTrace();
+        }
     }    
     
 }
