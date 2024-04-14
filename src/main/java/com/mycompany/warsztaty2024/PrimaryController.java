@@ -33,6 +33,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class PrimaryController implements Initializable {
@@ -80,7 +81,8 @@ private void switchToKarta_Kierowcy() throws IOException {
     //Set view in window
     newWindow.setScene(new Scene(loader.load()));
     //Launch
-    newWindow.show();
+    newWindow.initModality(Modality.APPLICATION_MODAL);
+    newWindow.showAndWait();
     }
 
 @FXML
@@ -91,7 +93,8 @@ private void open_Szczegol() throws IOException
         newWindow.setTitle("Dane Szczegółowe");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("szczegol.fxml"));
         newWindow.setScene(new Scene(loader.load()));
-        newWindow.show();
+        newWindow.initModality(Modality.APPLICATION_MODAL);
+        newWindow.showAndWait();
     }
 
 

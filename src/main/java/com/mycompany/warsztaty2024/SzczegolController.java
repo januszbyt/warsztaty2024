@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -40,7 +41,8 @@ private void switchToKarta_Kierowcy() throws IOException {
     //Set view in window
     newWindow.setScene(new Scene(loader.load()));
     //Launch
-    newWindow.show();
+    newWindow.initModality(Modality.APPLICATION_MODAL);
+    newWindow.showAndWait();
     }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
