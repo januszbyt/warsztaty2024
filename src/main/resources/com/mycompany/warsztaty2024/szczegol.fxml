@@ -7,18 +7,36 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="658.0" prefWidth="944.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.warsztaty2024.SzczegolController">
+<AnchorPane id="AnchorPane" minWidth="-Infinity" prefHeight="658.0" prefWidth="978.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.warsztaty2024.SzczegolController">
    <children>
-      <TextField fx:id="nazwiskoszcz" layoutX="112.0" layoutY="74.0" />
+      <TextField fx:id="nazwiskoszcz" layoutX="112.0" layoutY="74.0" prefHeight="25.0" prefWidth="393.0" />
       <Label layoutX="26.0" layoutY="78.0" text="Nazwisko" />
       <Label layoutX="26.0" layoutY="117.0" text="Imię" />
-      <TextField layoutX="112.0" layoutY="113.0" />
-      <ImageView fx:id="myimage" fitHeight="336.0" fitWidth="306.0" layoutX="76.0" layoutY="208.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="114.0" AnchorPane.leftAnchor="76.0" AnchorPane.rightAnchor="875.9386901855469" AnchorPane.topAnchor="208.0">
+      <TextField fx:id="imieszcz" layoutX="112.0" layoutY="113.0" prefHeight="25.0" prefWidth="393.0" />
+      <ImageView fx:id="myimage" fitHeight="482.0" fitWidth="361.0" layoutX="581.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="125.1593017578125" AnchorPane.leftAnchor="581.0" AnchorPane.rightAnchor="36.0" AnchorPane.topAnchor="87.0">
          <image>
             <Image url="@R.jpg" />
          </image></ImageView>
-      <Button fx:id="karta_kierowca" layoutX="401.0" layoutY="36.0" mnemonicParsing="false" onAction="#switchToKarta_Kierowcy" text="Karta kierowcy" />
-      <TextField fx:id="idszcz" layoutX="112.0" layoutY="36.0" />
+      <Button fx:id="karta_kierowca" layoutX="112.0" layoutY="445.0" mnemonicParsing="false" onAction="#switchToKarta_Kierowcy" text="Karta kierowcy" />
+      <TextField fx:id="idszcz" layoutX="112.0" layoutY="36.0" prefHeight="25.0" prefWidth="51.0" />
       <Label layoutX="26.0" layoutY="40.0" text="ID" />
+      <Button fx:id="karta_kierowca1" layoutX="717.0" layoutY="45.0" mnemonicParsing="false" onAction="#switchToKarta_Kierowcy" text="Dodaj zdjęcie" />
+      <TextField fx:id="mailszcz" layoutX="112.0" layoutY="156.0" prefHeight="25.0" prefWidth="393.0" />
+      <TextField fx:id="adresszcz" layoutX="112.0" layoutY="195.0" prefHeight="25.0" prefWidth="393.0" />
+      <Label layoutX="26.0" layoutY="156.0" text="Email" />
+      <Label layoutX="26.0" layoutY="195.0" text="Adres" />
+      <TextField fx:id="telszcz" layoutX="112.0" layoutY="239.0" prefHeight="25.0" prefWidth="393.0" />
+      <TextField fx:id="narodszcz" layoutX="112.0" layoutY="278.0" prefHeight="25.0" prefWidth="393.0" />
+      <TextField fx:id="zrodloszcz" layoutX="112.0" layoutY="321.0" prefHeight="25.0" prefWidth="393.0" />
+      <TextField fx:id="statusszcz" layoutX="112.0" layoutY="360.0" prefHeight="25.0" prefWidth="393.0" />
+      <Label layoutX="26.0" layoutY="245.0" text="Tel" />
+      <Label layoutX="26.0" layoutY="284.0" text="Narodowość" />
+      <Label layoutX="26.0" layoutY="323.0" text="Zrodlo" />
+      <Label layoutX="26.0" layoutY="362.0" text="Status" />
+      <TextField fx:id="linkszcz" layoutX="112.0" layoutY="399.0" prefHeight="25.0" prefWidth="393.0" />
+      <Label layoutX="26.0" layoutY="401.0" text="Link" />
+      <Button fx:id="karta_kierowca2" layoutX="112.0" layoutY="484.0" mnemonicParsing="false" onAction="#switchToKarta_Kierowcy" prefHeight="25.0" prefWidth="94.0" text="Pawo jazdy" />
+      <Button fx:id="karta_kierowca21" layoutX="112.0" layoutY="523.0" mnemonicParsing="false" onAction="#switchToKarta_Kierowcy" prefHeight="25.0" prefWidth="94.0" text="Paszport" />
+      <Button fx:id="karta_kierowca211" layoutX="112.0" layoutY="562.0" mnemonicParsing="false" onAction="#switchToKarta_Kierowcy" prefHeight="25.0" prefWidth="94.0" text="Zezwolenie" />
    </children>
 </AnchorPane>
