@@ -70,22 +70,6 @@ new Osoba(1, "", "", "","","","","","","")
 public static Osoba wybranaOsobaDalej;
 
 @FXML
-private void switchToKarta_Kierowcy() throws IOException {
-    
-    
-    //Create Stage
-    Stage newWindow = new Stage();
-    newWindow.setTitle("Karta kierowcy");
-    //Create view from FXML
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("Karta_Kierowcy.fxml"));
-    //Set view in window
-    newWindow.setScene(new Scene(loader.load()));
-    //Launch
-    newWindow.initModality(Modality.APPLICATION_MODAL);
-    newWindow.showAndWait();
-    }
-
-@FXML
 private void open_Szczegol() throws IOException  
     {
         wybranaOsobaDalej = tabela.getSelectionModel().getSelectedItem();

@@ -17,8 +17,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.DatePicker;
 import java.sql.*;
-//import java.time.LocalDate;
+import java.time.LocalDate;
 import javafx.application.Platform;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.TextField;
 
 
@@ -31,6 +33,7 @@ public class Karta_KierowcyController implements Initializable {
     @FXML private TextField numer_karty;
     @FXML private TextField id_pracownika;
     boolean status;
+    @FXML private CheckBox edycja;
     
 
     
@@ -61,10 +64,64 @@ public class Karta_KierowcyController implements Initializable {
        
     }
     
+    
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         id_pracownika.setText(String.valueOf(SzczegolController.pracownik_id));
+        id_pracownika.setEditable(false);
+        numer_karty.setEditable(false);
+        data_waznosci.setDisable(true);
+        data_wydania.setDisable(true);
+        
+        
+        
+        edycja.setOnAction(event -> {
+            boolean wlaczenieEdycji = edycja.isSelected();
+            // Ustawienie stanu edycji pól tekstowych na podstawie zaznaczenia CheckBoxa
+            numer_karty.setEditable(wlaczenieEdycji);
+            data_waznosci.setDisable(!wlaczenieEdycji);
+            data_wydania.setDisable(!wlaczenieEdycji);
+        });
+        
+        data_wydania.setDayCellFactory(picker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+
+                // Dezaktywacja komórek reprezentujących daty przyszłe
+                if (date.isAfter(LocalDate.now())) {
+                    setDisable(true);
+                    setStyle("-fx-background-color: #ffc0cb;"); // Opcjonalne: zmiana koloru tła dla dat przyszłych
+                }
+            }
+        });
+        
+        data_wydania.valueProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null && newVal.isAfter(LocalDate.now())) {
+                data_wydania.setValue(oldVal); // Ustawienie poprzedniej ważnej daty
+            }
+        });
+        
+        data_waznosci.setDayCellFactory(picker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+
+                // Dezaktywacja komórek reprezentujących daty przyszłe
+                if (date.isBefore(LocalDate.now())) {
+                    setDisable(true);
+                    setStyle("-fx-background-color: #ffc0cb;"); // Opcjonalne: zmiana koloru tła dla dat przyszłych
+                }
+            }
+        });
+        
+        data_waznosci.valueProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null && newVal.isBefore(LocalDate.now())) {
+                data_waznosci.setValue(oldVal); // Ustawienie poprzedniej ważnej daty
+            }
+        });
         
         try {
             Connection connection = DatabaseConnection.getConnection();
