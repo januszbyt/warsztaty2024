@@ -27,6 +27,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -70,18 +71,29 @@ new Osoba(1, "", "", "","","","","","","")
 public static Osoba wybranaOsobaDalej;
 
 @FXML
-private void open_Szczegol() throws IOException  
-    {
-        wybranaOsobaDalej = tabela.getSelectionModel().getSelectedItem();
+private void open_Szczegol() throws IOException {
+    wybranaOsobaDalej = tabela.getSelectionModel().getSelectedItem();
+    
+    // Sprawdź, czy coś jest zaznaczone
+    if (wybranaOsobaDalej != null) {
         Stage newWindow = new Stage();
         newWindow.setTitle("Dane Szczegółowe");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("szczegol.fxml"));
         newWindow.setScene(new Scene(loader.load()));
         newWindow.initModality(Modality.APPLICATION_MODAL);
         newWindow.showAndWait();
+    } else {
+        // Jeśli nic nie jest zaznaczone, wyświetl komunikat
+        Platform.runLater(() -> {
+            // Wyświetl alert z informacją dla użytkownika
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Błąd");
+            alert.setHeaderText(null);
+            alert.setContentText("Nie wybrano żadnego pracownika do wyświetlenia szczegółów.");
+            alert.showAndWait();
+        });
     }
-
-
+}
 
 @FXML
 private void testBaza(ActionEvent event) {
