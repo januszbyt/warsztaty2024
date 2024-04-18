@@ -1,29 +1,35 @@
 package com.mycompany.warsztaty2024;
 
-import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 import java.io.IOException;
+import javafx.application.Application;
 
-/**
- * JavaFX App
- */
 public class App extends Application {
 
-    private static Scene scene;
+    private static Scene loginScene;
+    private static Scene mainScene;
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("primary"), 1000, 500);
-        stage.setScene(scene);
+        
+        Parent loginRoot = loadFXML("login");
+        loginScene = new Scene(loginRoot, 250, 180);
+
+       
+        Parent mainRoot = loadFXML("primary");
+        mainScene = new Scene(mainRoot, 1000, 500);
+
+        
+        stage.setScene(loginScene);
         stage.show();
     }
 
-    static void setRoot(String fxml) throws IOException {
-        scene.setRoot(loadFXML(fxml));
+    static void setMainScene() {
+        Stage stage = (Stage) loginScene.getWindow();
+        stage.setScene(mainScene);
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
@@ -34,5 +40,4 @@ public class App extends Application {
     public static void main(String[] args) {
         launch();
     }
-
 }
