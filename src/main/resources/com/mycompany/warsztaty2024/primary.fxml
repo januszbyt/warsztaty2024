@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 
-<BorderPane prefHeight="593.0" prefWidth="843.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.warsztaty2024.PrimaryController">
+<BorderPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.warsztaty2024.PrimaryController">
    <top>
       <MenuBar maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
         <menus>
@@ -36,14 +36,14 @@
             </StackPane>
             <TextField fx:id="imie_tekst" layoutX="14.0" layoutY="49.0" promptText="Imie" />
             <TextField fx:id="Email_tekst" layoutX="14.0" layoutY="83.0" promptText="Email" />
-            <Button fx:id="przycisk_dodaj" layoutX="345.0" layoutY="108.0" mnemonicParsing="false" onAction="#zapiszDoBazy" text="Dodaj" />
-            <Button layoutX="419.0" layoutY="108.0" mnemonicParsing="false" onAction="#testBaza" text="Baza" />
             <TextField fx:id="Adres_tekst" layoutX="14.0" layoutY="120.0" promptText="Adres" />
             <TextField fx:id="Telefon_tekst" layoutX="172.0" layoutY="14.0" promptText="Telefon" />
             <TextField fx:id="Narodowosc_tekst" layoutX="172.0" layoutY="49.0" promptText="Narodowosc" />
             <TextField fx:id="Zrodlo_tekst" layoutX="172.0" layoutY="83.0" promptText="Zrodlo" />
             <TextField fx:id="Status_tekst" layoutX="172.0" layoutY="120.0" promptText="Status" />
             <TextField fx:id="Link_tekst" layoutX="329.0" layoutY="14.0" promptText="Link" />
+            <Button fx:id="przycisk_dodaj" layoutX="345.0" layoutY="108.0" mnemonicParsing="false" onAction="#zapiszDoBazy" text="Dodaj" />
+            <Button layoutX="419.0" layoutY="108.0" mnemonicParsing="false" onAction="#testBaza" text="Baza" />
             <Button layoutX="532.0" layoutY="14.0" mnemonicParsing="false" onAction="#open_Szczegol" text="Szczegóły" />
          </children>
       </Pane>
@@ -51,16 +51,16 @@
    <center>
       <TableView fx:id="tabela" prefHeight="315.0" prefWidth="843.0" BorderPane.alignment="CENTER">
         <columns>
-            <TableColumn fx:id="IDColumn" prefWidth="35.99996793270111" text="ID" />
-          <TableColumn fx:id="NazwiskoColumn" prefWidth="72.0" text="Nazwisko" />
-          <TableColumn fx:id="ImieColumn" prefWidth="80.79999542236328" text="imie" />
-            <TableColumn fx:id="EmailColumn" prefWidth="85.5999755859375" text="Email" />
-            <TableColumn fx:id="AdresColumn" prefWidth="87.20001220703125" text="Adres" />
-            <TableColumn fx:id="TelefonColumn" prefWidth="67.20001220703125" text="Telefon" />
-            <TableColumn fx:id="NarodowoscColumn" prefWidth="85.59994506835938" text="Narodowosc" />
-            <TableColumn fx:id="ZrodloColumn" prefWidth="68.800048828125" text="Zrodlo" />
-            <TableColumn fx:id="StatusColumn" prefWidth="71.99993896484375" text="Status" />
-            <TableColumn fx:id="LinkColumn" prefWidth="82.4000244140625" text="Link" />
+            <TableColumn fx:id="IDColumn" prefWidth="29.59997522830963" text="ID" />
+          <TableColumn fx:id="NazwiskoColumn" prefWidth="91.20004463195801" text="Nazwisko" />
+          <TableColumn fx:id="ImieColumn" prefWidth="84.79999542236328" text="imie" />
+            <TableColumn fx:id="EmailColumn" prefWidth="101.60003662109375" text="Email" />
+            <TableColumn fx:id="AdresColumn" prefWidth="107.99993896484375" text="Adres" />
+            <TableColumn fx:id="TelefonColumn" prefWidth="99.20004272460938" text="Telefon" />
+            <TableColumn fx:id="NarodowoscColumn" prefWidth="89.59991455078125" text="Narodowosc" />
+            <TableColumn fx:id="ZrodloColumn" prefWidth="88.79998779296875" text="Zrodlo" />
+            <TableColumn fx:id="StatusColumn" prefWidth="104.00006103515625" text="Status" />
+            <TableColumn fx:id="LinkColumn" prefWidth="104.800048828125" text="Link" />
         </columns>
          <contextMenu>
             <ContextMenu>

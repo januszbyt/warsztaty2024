@@ -32,6 +32,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Modality;
@@ -61,6 +62,7 @@ public class PrimaryController implements Initializable {
 @FXML private TextField Zrodlo_tekst;
 @FXML private TextField Status_tekst;
 @FXML private TextField Link_tekst;
+
 
 
 ObservableList<Osoba> dane = FXCollections.observableArrayList(
@@ -227,21 +229,26 @@ private void dodajelementAction(ActionEvent event) {
  }
  }
 */
+    
+     
+    
+    
+    
 @FXML
 private void zapiszDoBazy(ActionEvent event) {
     Task<Void> task = new Task<Void>() {
         @Override
         protected Void call() throws Exception {
             try {
-                // Pobierz połączenie z bazą danych
+               
                 Connection connection = DatabaseConnection.getConnection(); 
 
-                // Utwórz zapytanie SQL
+                
                 String query = "INSERT INTO pracownik (nazwisko, imie, email, adres, telefon, narodowosc, zrodlo, status,link) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-                // Utwórz prepared statement
+                
                 try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-                    // Ustaw wartości parametrów
+                    
                     
                     preparedStatement.setString(1, nazwisko_tekst.getText());
                     preparedStatement.setString(2, imie_tekst.getText());
@@ -253,21 +260,17 @@ private void zapiszDoBazy(ActionEvent event) {
                     preparedStatement.setString(8, Status_tekst.getText());
                     preparedStatement.setString(9, Link_tekst.getText());
 
-                    // Wykonaj zapytanie
+                    
                     preparedStatement.executeUpdate();
                     testBaza(event);
                 }
 
-                // Zamknij połączenie
+                
                 connection.close();
 
-                // Aktualizuj interfejs użytkownika na głównym wątku
+               
                 Platform.runLater(() -> {
-                    // Dodaj wpisane dane do tabeli
-                  //  dane.add(new Osoba(ID_tekst.getTest(),nazwisko_tekst.getText(), imie_tekst.getText(), Email_tekst.getText(), Adres_tekst.getText(), Telefon_tekst.getText(), Narodowosc_tekst.getText(), Zrodlo_tekst.getText(), Status_tekst.getText(),Link_tekst.getText()));
-                    
-                    // Wyczyść pola tekstowe
-                    ID_tekst.clear();
+                
                     nazwisko_tekst.clear();
                     imie_tekst.clear();
                     Email_tekst.clear();
@@ -338,7 +341,17 @@ private void usunZBazy(ActionEvent event) {
         // Tutaj możesz dodać dowolną obsługę, np. wyświetlić alert z informacją dla użytkownika
     }
 }
-    
+    private void wybierzFolder() {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setTitle("Wybierz folder");
+        
+        Stage currentStage = (Stage) tabela.getScene().getWindow();
+        File selectedDirectory = directoryChooser.showDialog(currentStage);
+
+        if (selectedDirectory != null) {
+            Link_tekst.setText(selectedDirectory.getAbsolutePath());
+        }
+    }
     
     
 
@@ -370,6 +383,9 @@ private void usunZBazy(ActionEvent event) {
     new PropertyValueFactory<Osoba, String>("Status"));
         LinkColumn.setCellValueFactory(
     new PropertyValueFactory<Osoba, String>("Link"));
+           Link_tekst.setOnMouseClicked(event -> {
+            wybierzFolder();
+        });
         
         tabela.setItems(dane);
         testBaza(null);

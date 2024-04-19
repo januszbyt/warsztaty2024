@@ -20,16 +20,21 @@ public class App extends Application {
 
        
         Parent mainRoot = loadFXML("primary");
-        mainScene = new Scene(mainRoot, 1000, 500);
+        mainScene = new Scene(mainRoot, 900, 600);
 
+         
+        
         
         stage.setScene(loginScene);
         stage.show();
+        
+        
     }
 
     static void setMainScene() {
-        Stage stage = (Stage) loginScene.getWindow();
-        stage.setScene(mainScene);
+        Stage primaryStage = (Stage) loginScene.getWindow();
+        primaryStage.setScene(mainScene);
+        primaryStage.centerOnScreen();
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
