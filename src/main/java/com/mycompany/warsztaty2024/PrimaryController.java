@@ -236,63 +236,88 @@ private void dodajelementAction(ActionEvent event) {
     
 @FXML
 private void zapiszDoBazy(ActionEvent event) {
-    Task<Void> task = new Task<Void>() {
-        @Override
-        protected Void call() throws Exception {
-            try {
-               
-                Connection connection = DatabaseConnection.getConnection(); 
-
-                
-                String query = "INSERT INTO pracownik (nazwisko, imie, email, adres, telefon, narodowosc, zrodlo, status,link) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-                
-                try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-                    
-                    
-                    preparedStatement.setString(1, nazwisko_tekst.getText());
-                    preparedStatement.setString(2, imie_tekst.getText());
-                    preparedStatement.setString(3, Email_tekst.getText());
-                    preparedStatement.setString(4, Adres_tekst.getText());
-                    preparedStatement.setString(5, Telefon_tekst.getText());
-                    preparedStatement.setString(6, Narodowosc_tekst.getText());
-                    preparedStatement.setString(7, Zrodlo_tekst.getText());
-                    preparedStatement.setString(8, Status_tekst.getText());
-                    preparedStatement.setString(9, Link_tekst.getText());
+    if (czyWszystkiePolaUzupelnione()) {
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                try {
+                   
+                    Connection connection = DatabaseConnection.getConnection(); 
 
                     
-                    preparedStatement.executeUpdate();
-                    testBaza(event);
+                    String query = "INSERT INTO pracownik (nazwisko, imie, email, adres, telefon, narodowosc, zrodlo, status,link) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+                    
+                    try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                        
+                        
+                        preparedStatement.setString(1, nazwisko_tekst.getText());
+                        preparedStatement.setString(2, imie_tekst.getText());
+                        preparedStatement.setString(3, Email_tekst.getText());
+                        preparedStatement.setString(4, Adres_tekst.getText());
+                        preparedStatement.setString(5, Telefon_tekst.getText());
+                        preparedStatement.setString(6, Narodowosc_tekst.getText());
+                        preparedStatement.setString(7, Zrodlo_tekst.getText());
+                        preparedStatement.setString(8, Status_tekst.getText());
+                        preparedStatement.setString(9, Link_tekst.getText());
+
+                        
+                        preparedStatement.executeUpdate();
+                        testBaza(event);
+                    }
+
+                    
+                    connection.close();
+
+                   
+                    Platform.runLater(() -> {
+                    
+                        nazwisko_tekst.clear();
+                        imie_tekst.clear();
+                        Email_tekst.clear();
+                        Adres_tekst.clear();
+                        Telefon_tekst.clear();
+                        Narodowosc_tekst.clear();
+                        Zrodlo_tekst.clear();
+                        Status_tekst.clear();
+                        Link_tekst.clear();
+                        
+                        
+                    });
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    
                 }
-
-                
-                connection.close();
-
-               
-                Platform.runLater(() -> {
-                
-                    nazwisko_tekst.clear();
-                    imie_tekst.clear();
-                    Email_tekst.clear();
-                    Adres_tekst.clear();
-                    Telefon_tekst.clear();
-                    Narodowosc_tekst.clear();
-                    Zrodlo_tekst.clear();
-                    Status_tekst.clear();
-                    Link_tekst.clear();
-                    
-                    
-                });
-            } catch (SQLException e) {
-                e.printStackTrace();
-                
+                return null;
             }
-            return null;
-        }
-    };
+        };
 
-    new Thread(task).start();
+        new Thread(task).start();
+    } else {
+        // Wyświetlenie komunikatu o uzupełnieniu wszystkich pól
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Brakujące pola");
+        alert.setHeaderText(null);
+        alert.setContentText("Uzupełnij wszystkie pola");
+        alert.showAndWait();
+    }
 }
+
+private boolean czyWszystkiePolaUzupelnione() {
+    return !nazwisko_tekst.getText().isEmpty() &&
+           !imie_tekst.getText().isEmpty() &&
+           !Email_tekst.getText().isEmpty() &&
+           !Adres_tekst.getText().isEmpty() &&
+           !Telefon_tekst.getText().isEmpty() &&
+           !Narodowosc_tekst.getText().isEmpty() &&
+           !Zrodlo_tekst.getText().isEmpty() &&
+           !Status_tekst.getText().isEmpty() &&
+           !Link_tekst.getText().isEmpty();
+}
+
+
+
+
     @FXML
 private void usunZBazy(ActionEvent event) {
     // Pobierz zaznaczony wiersz w tabeli
