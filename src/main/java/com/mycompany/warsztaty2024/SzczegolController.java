@@ -12,6 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
@@ -60,6 +61,26 @@ private void switchToKarta_Kierowcy() throws IOException {
     newWindow.initModality(Modality.APPLICATION_MODAL);
     newWindow.showAndWait();
     }
+
+@FXML
+private void switchToPrawo_jazdy() throws IOException {
+    pracownik_id = Integer.valueOf(idszcz.getText());
+    // Create Stage
+    Stage newWindow = new Stage();
+    newWindow.setTitle("Prawo Jazdy");
+    // Create view from FXML
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("Prawo_jazdy.fxml"));
+    // Set view in window
+    Parent root = loader.load();
+    // Access controller and set pracownik_id
+    Prawo_JazdyController controller = loader.getController();
+    controller.id_pracownika.setText(String.valueOf(pracownik_id)); // Set pracownik_id
+    // Set view in window
+    newWindow.setScene(new Scene(root));
+    // Launch
+    newWindow.initModality(Modality.APPLICATION_MODAL);
+    newWindow.showAndWait();
+}
 
 
 @FXML
