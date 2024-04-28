@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 18, 2024 at 06:17 PM
+-- Generation Time: Apr 28, 2024 at 05:13 PM
 -- Wersja serwera: 10.4.32-MariaDB
 -- Wersja PHP: 8.2.12
 
@@ -40,7 +40,8 @@ CREATE TABLE `karty_kierowcy` (
 --
 
 INSERT INTO `karty_kierowcy` (`id_karty`, `numer`, `data_wydania`, `data_waznosci`, `pracownik_id`) VALUES
-(1, 123, '2023-01-01', '2026-01-01', 1);
+(1, 123, '2023-01-11', '2026-01-09', 1),
+(4, 234, '2024-04-04', '2024-05-04', 31);
 
 -- --------------------------------------------------------
 
@@ -82,15 +83,17 @@ CREATE TABLE `prawa_jazdy` (
   `data_wydania` date NOT NULL,
   `data_waznosci` date NOT NULL,
   `kraj_pochodzenia` varchar(100) NOT NULL,
-  `pracownik_id` int(11) NOT NULL
+  `pracownik_id` int(11) NOT NULL,
+  `Numer_pj` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `prawa_jazdy`
 --
 
-INSERT INTO `prawa_jazdy` (`id_prawa_jazdy`, `kategorie`, `data_wydania`, `data_waznosci`, `kraj_pochodzenia`, `pracownik_id`) VALUES
-(1, 'A, B', '2022-01-01', '2027-01-01', 'Polska', 1);
+INSERT INTO `prawa_jazdy` (`id_prawa_jazdy`, `kategorie`, `data_wydania`, `data_waznosci`, `kraj_pochodzenia`, `pracownik_id`, `Numer_pj`) VALUES
+(1, 'A, B', '2022-01-01', '2027-01-01', 'Polska', 1, 'sssssdafa'),
+(4, 'a,b', '2024-04-10', '2024-04-28', 'polak', 32, 'sdafsdfsdf');
 
 -- --------------------------------------------------------
 
@@ -109,8 +112,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`username`, `password`) VALUES
 ('user1', 'password1'),
-('2', '2'),
-('3', '3');
+('user2', 'password2'),
+('user3', 'password3');
 
 --
 -- Indeksy dla zrzutów tabel
@@ -144,7 +147,7 @@ ALTER TABLE `prawa_jazdy`
 -- AUTO_INCREMENT for table `karty_kierowcy`
 --
 ALTER TABLE `karty_kierowcy`
-  MODIFY `id_karty` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_karty` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `pracownik`
@@ -156,7 +159,7 @@ ALTER TABLE `pracownik`
 -- AUTO_INCREMENT for table `prawa_jazdy`
 --
 ALTER TABLE `prawa_jazdy`
-  MODIFY `id_prawa_jazdy` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_prawa_jazdy` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
@@ -178,5 +181,3 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
-
