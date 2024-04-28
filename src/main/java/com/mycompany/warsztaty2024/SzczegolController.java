@@ -21,6 +21,28 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import java.sql.*;
+import javafx.application.Platform;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.DateCell;
+import javafx.stage.DirectoryChooser;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+
+
+
+
 
 /**
  * FXML Controller class
@@ -43,6 +65,8 @@ public class SzczegolController implements Initializable {
     @FXML private TextField linkszcz;
     @FXML private TextField zrodloszcz;
     @FXML private ImageView myimage; 
+   boolean status;
+    @FXML private CheckBox edycja;
          
     public static int pracownik_id;
 
@@ -82,7 +106,7 @@ private void switchToPrawo_jazdy() throws IOException {
     newWindow.showAndWait();
 }
 
-
+/*
 @FXML
 private void openPersonalFolder() {
     String employeeFolderPath = PrimaryController.wybranaOsobaDalej.getLink();
@@ -111,8 +135,71 @@ private void openPersonalFolder() {
         showAlert("Błąd", "Folder nie istnieje", "Upewnij się, że ścieżka jest prawidłowa i folder istnieje.");
     }
 }
+*/
+
+@FXML
+private void wybierzPlik(ActionEvent event) {
+    FileChooser fileChooser = new FileChooser();
+    fileChooser.setTitle("Wybierz plik JPG");
+    fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Pliki JPG", "*.jpg"));
+
+    Stage currentStage = (Stage) nazwiskoszcz.getScene().getWindow(); // Pobranie obecnej sceny
+    File selectedFile = fileChooser.showOpenDialog(currentStage); // Pokaż dialog wyboru pliku
+
+    if (selectedFile != null) {
+        try {
+            // Wczytaj obrazek do ImageView
+            Image image = new Image(selectedFile.toURI().toString());
+            myimage.setImage(image); // Ustawienie wybranej grafiki w ImageView
+
+            // Kopiuj plik do folderu i podfolderu
+            String folderPath = linkszcz.getText();
+            Path sourcePath = selectedFile.toPath();
+            Path destinationPath = Paths.get(folderPath, "zdjecie", selectedFile.getName());
+
+            Files.createDirectories(destinationPath.getParent()); // Utwórz podkatalog zdjecie, jeśli nie istnieje
+            Files.copy(sourcePath, destinationPath, StandardCopyOption.REPLACE_EXISTING);
+        } catch (Exception e) {
+            showAlert("Błąd", "Błąd wczytywania lub kopiowania obrazu", "Wystąpił błąd podczas wczytywania lub kopiowania obrazu.");
+            e.printStackTrace();
+        }
+    }
+}
 
 
+
+@FXML
+private void zapiszDane() {
+    try {
+        Connection connection = DatabaseConnection.getConnection();
+    
+        String updateQuery = "UPDATE pracownik SET nazwisko=?, imie=?, email=?, adres=?, telefon=?, narodowosc=?, zrodlo=?, status=? WHERE pracownik_id=?";
+        PreparedStatement pstmt = connection.prepareStatement(updateQuery);
+
+        pstmt.setString(1, nazwiskoszcz.getText());
+        pstmt.setString(2, imieszcz.getText());
+        pstmt.setString(3, mailszcz.getText());
+        pstmt.setString(4, adresszcz.getText());
+        pstmt.setString(5, telszcz.getText());
+        pstmt.setString(6, narodszcz.getText());
+        pstmt.setString(7, zrodloszcz.getText());
+        pstmt.setString(8, statusszcz.getText());
+        pstmt.setInt(9, Integer.valueOf(idszcz.getText()));
+
+        int rowsUpdated = pstmt.executeUpdate();
+        if (rowsUpdated > 0) {
+            showAlert("Sukces", "Dane zaktualizowane", "Dane pracownika zostały zapisane w bazie danych.");
+        } else {
+            showAlert("Błąd", "Nie udało się zaktualizować danych", "Wystąpił problem podczas aktualizacji danych pracownika.");
+        }
+
+        pstmt.close();
+        connection.close();
+    } catch (SQLException e) {
+        e.printStackTrace();
+        showAlert("Błąd", "Błąd bazy danych", "Wystąpił problem podczas zapisywania danych pracownika do bazy danych.");
+    }
+}
 
 
 private void loadEmployeePhoto() {
@@ -163,20 +250,65 @@ private void showAlert(String title, String headerText, String contentText) {
     alert.showAndWait();
 }
 
+private void aktualizujFolder() {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setTitle("Wybierz folder");
+        
+        Stage currentStage = (Stage) linkszcz.getScene().getWindow();
+        File selectedDirectory = directoryChooser.showDialog(currentStage);
 
-    @Override
+        if (selectedDirectory != null) {
+            linkszcz.setText(selectedDirectory.getAbsolutePath());
+        }
+    }
+
+   @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-        nazwiskoszcz.setText(PrimaryController.wybranaOsobaDalej.getNazwisko());
         idszcz.setText(Integer.toString(PrimaryController.wybranaOsobaDalej.getID()));
+        idszcz.setDisable(true);
+        nazwiskoszcz.setText(PrimaryController.wybranaOsobaDalej.getNazwisko());
+        nazwiskoszcz.setDisable(true);
         imieszcz.setText(PrimaryController.wybranaOsobaDalej.getImie());
+        imieszcz.setDisable(true);
         mailszcz.setText(PrimaryController.wybranaOsobaDalej.getEmail());
+        mailszcz.setDisable(true);
         adresszcz.setText(PrimaryController.wybranaOsobaDalej.getAdres());
+        adresszcz.setDisable(true);
         telszcz.setText(PrimaryController.wybranaOsobaDalej.getTelefon());
+        telszcz.setDisable(true);
         narodszcz.setText(PrimaryController.wybranaOsobaDalej.getNarodowosc());
+        narodszcz.setDisable(true);
         zrodloszcz.setText(PrimaryController.wybranaOsobaDalej.getZrodlo());
+        zrodloszcz.setDisable(true);
         statusszcz.setText(PrimaryController.wybranaOsobaDalej.getStatus());
+        statusszcz.setDisable(true);
         linkszcz.setText(PrimaryController.wybranaOsobaDalej.getLink());
+        linkszcz.setDisable(true);
+        
+        linkszcz.setOnMouseClicked(event -> {
+            aktualizujFolder();
+        });
+        
+      
+            edycja.setOnAction(event -> {
+            boolean wlaczenieEdycji = edycja.isSelected();
+            // Ustawienie stanu edycji pól tekstowych na podstawie zaznaczenia CheckBoxa
+            nazwiskoszcz.setDisable(!wlaczenieEdycji);
+            imieszcz.setDisable(!wlaczenieEdycji);
+            mailszcz.setDisable(!wlaczenieEdycji);
+            adresszcz.setDisable(!wlaczenieEdycji);
+            telszcz.setDisable(!wlaczenieEdycji);
+            narodszcz.setDisable(!wlaczenieEdycji);
+            zrodloszcz.setDisable(!wlaczenieEdycji);
+            statusszcz.setDisable(!wlaczenieEdycji);
+            linkszcz.setDisable(!wlaczenieEdycji);
+        });
+        
+        
+        
          loadEmployeePhoto();
     }
     }
+        
+ 
