@@ -111,9 +111,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`username`, `password`) VALUES
-('user1', 'password1'),
-('user2', 'password2'),
-('user3', 'password3');
+('1', '1'),
+('2', '2'),
+('', '');
 
 --
 -- Indeksy dla zrzutów tabel
