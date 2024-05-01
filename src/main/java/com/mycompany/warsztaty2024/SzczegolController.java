@@ -106,7 +106,7 @@ private void switchToPrawo_jazdy() throws IOException {
     newWindow.showAndWait();
 }
 
-/*
+
 @FXML
 private void openPersonalFolder() {
     String employeeFolderPath = PrimaryController.wybranaOsobaDalej.getLink();
@@ -135,7 +135,7 @@ private void openPersonalFolder() {
         showAlert("Błąd", "Folder nie istnieje", "Upewnij się, że ścieżka jest prawidłowa i folder istnieje.");
     }
 }
-*/
+
 
 @FXML
 private void wybierzPlik(ActionEvent event) {
@@ -241,6 +241,24 @@ private void loadEmployeePhoto() {
         showAlert("Błąd", "Folder zdjecie nie istnieje", "Folder zdjecie wewnątrz folderu pracownika nie istnieje.");
     }
 }
+
+
+@FXML
+    public void openPhoto() throws IOException {
+    
+    //pracownik_id = Integer.valueOf(idszcz.getText());
+    //Create Stage
+    Stage newWindow = new Stage();
+    newWindow.setTitle("Okno wyboru zdjęcia/skanu");
+    //Create view from FXML
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("Wyswietl_Zdjecie.fxml"));
+    //Set view in window
+    newWindow.setScene(new Scene(loader.load()));
+    //Launch
+    newWindow.initModality(Modality.APPLICATION_MODAL);
+    newWindow.showAndWait();
+    }
+
 
 private void showAlert(String title, String headerText, String contentText) {
     Alert alert = new Alert(Alert.AlertType.ERROR);

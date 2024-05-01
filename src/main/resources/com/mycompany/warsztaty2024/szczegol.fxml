@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -20,7 +21,7 @@
       <Button fx:id="karta_kierowca" layoutX="112.0" layoutY="445.0" mnemonicParsing="false" onAction="#switchToKarta_Kierowcy" text="Karta kierowcy" />
       <TextField fx:id="idszcz" layoutX="112.0" layoutY="36.0" prefHeight="25.0" prefWidth="51.0" />
       <Label layoutX="26.0" layoutY="40.0" text="ID" />
-      <Button fx:id="karta_kierowca1" layoutX="717.0" layoutY="45.0" mnemonicParsing="false" onAction="#openPersonalFolder" text="Dodaj zdjęcie" />
+      <Button fx:id="karta_kierowca1" layoutX="643.0" layoutY="45.0" mnemonicParsing="false" onAction="#openPersonalFolder" text="Dodaj zdjęcie" />
       <TextField fx:id="mailszcz" layoutX="112.0" layoutY="156.0" prefHeight="25.0" prefWidth="393.0" />
       <TextField fx:id="adresszcz" layoutX="112.0" layoutY="195.0" prefHeight="25.0" prefWidth="393.0" />
       <Label layoutX="26.0" layoutY="156.0" text="Email" />
@@ -38,5 +39,7 @@
       <Button fx:id="karta_kierowca2" layoutX="112.0" layoutY="484.0" mnemonicParsing="false" onAction="#switchToPrawo_jazdy" prefHeight="25.0" prefWidth="94.0" text="Pawo jazdy" />
       <Button fx:id="karta_kierowca21" layoutX="112.0" layoutY="523.0" mnemonicParsing="false" onAction="#switchToKarta_Kierowcy" prefHeight="25.0" prefWidth="94.0" text="Paszport" />
       <Button fx:id="karta_kierowca211" layoutX="112.0" layoutY="562.0" mnemonicParsing="false" onAction="#switchToKarta_Kierowcy" prefHeight="25.0" prefWidth="94.0" text="Zezwolenie" />
+      <CheckBox fx:id="edycja" layoutX="206.0" layoutY="40.0" mnemonicParsing="false" text="Edytuj" />
+      <Button layoutX="798.0" layoutY="45.0" mnemonicParsing="false" onAction="#openPhoto" text="Wyświetl plik" />
    </children>
 </AnchorPane>
