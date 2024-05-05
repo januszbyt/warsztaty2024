@@ -383,6 +383,8 @@ private void usunZBazy(ActionEvent event) {
     @Override
     public void initialize(URL url, ResourceBundle rb) 
     {
+       
+       
     // Ustawienie danych dla tabeli
     tabela.itemsProperty().setValue(dane);
     // Powiązanie pierwszej kolumny z polem nazwisko obiektu typu Osoba
@@ -411,8 +413,15 @@ private void usunZBazy(ActionEvent event) {
            Link_tekst.setOnMouseClicked(event -> {
             wybierzFolder();
         });
-        
+     
+           
+         
         tabela.setItems(dane);
         testBaza(null);
+        
+        
+        
+     
+        
     }
 }

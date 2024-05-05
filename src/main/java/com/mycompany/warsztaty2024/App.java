@@ -17,12 +17,13 @@ public class App extends Application {
         
         Parent loginRoot = loadFXML("login");
         loginScene = new Scene(loginRoot, 250, 180);
+       stage.setTitle("Logowanie");
 
        
         Parent mainRoot = loadFXML("primary");
         mainScene = new Scene(mainRoot, 900, 600);
-
-         
+        
+        
         
         
         stage.setScene(loginScene);
@@ -34,7 +35,11 @@ public class App extends Application {
     static void setMainScene() {
         Stage primaryStage = (Stage) loginScene.getWindow();
         primaryStage.setScene(mainScene);
+        primaryStage.setTitle("Start");
         primaryStage.centerOnScreen();
+        
+       
+
     }
 
     private static Parent loadFXML(String fxml) throws IOException {

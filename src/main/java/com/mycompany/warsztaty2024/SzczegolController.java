@@ -105,6 +105,21 @@ private void switchToPrawo_jazdy() throws IOException {
     newWindow.initModality(Modality.APPLICATION_MODAL);
     newWindow.showAndWait();
 }
+@FXML
+private void switchToPaszport() throws IOException {
+    
+    pracownik_id = Integer.valueOf(idszcz.getText());
+    //Create Stage
+    Stage newWindow = new Stage();
+    newWindow.setTitle("Paszport");
+    //Create view from FXML
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("paszport.fxml"));
+    //Set view in window
+    newWindow.setScene(new Scene(loader.load()));
+    //Launch
+    newWindow.initModality(Modality.APPLICATION_MODAL);
+    newWindow.showAndWait();
+    }
 
 
 @FXML
