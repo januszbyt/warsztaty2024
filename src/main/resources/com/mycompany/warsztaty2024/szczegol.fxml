@@ -14,7 +14,7 @@
       <Label layoutX="26.0" layoutY="78.0" text="Nazwisko" />
       <Label layoutX="26.0" layoutY="117.0" text="Imię" />
       <TextField fx:id="imieszcz" layoutX="112.0" layoutY="113.0" prefHeight="25.0" prefWidth="393.0" />
-      <ImageView fx:id="myimage" fitHeight="482.0" fitWidth="361.0" layoutX="581.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="125.1593017578125" AnchorPane.leftAnchor="581.0" AnchorPane.rightAnchor="36.0" AnchorPane.topAnchor="87.0">
+      <ImageView fx:id="myimage" onMouseClicked="#openImage" fitHeight="335.0" fitWidth="340.0" layoutX="625.0" layoutY="86.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="237.0" AnchorPane.leftAnchor="625.0" AnchorPane.rightAnchor="81.7484130859375" AnchorPane.topAnchor="86.0">
          <image>
             <Image url="@R.jpg" />
          </image></ImageView>
