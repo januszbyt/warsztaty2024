@@ -7,8 +7,9 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="301.0" prefWidth="352.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.warsztaty2024.paszport">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="383.0" prefWidth="352.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.warsztaty2024.paszport">
    <children>
       <Label layoutX="28.0" layoutY="20.0" text="Wprowadzanie danych paszportu" textAlignment="CENTER">
          <font>
@@ -18,7 +19,7 @@
       <TextField fx:id="numer_karty" layoutX="28.0" layoutY="79.0" promptText="Numer karty" />
       <DatePicker fx:id="data_wydania" layoutX="25.0" layoutY="141.0" />
       <DatePicker fx:id="data_waznosci" layoutX="25.0" layoutY="196.0" />
-      <Button fx:id="save_button" layoutX="25.0" layoutY="246.0" mnemonicParsing="false" onAction="#paszport" text="Zapisz" />
+      <Button fx:id="save_button" layoutX="25.0" layoutY="343.0" mnemonicParsing="false" onAction="#paszport" text="Zapisz" />
       <Label layoutX="27.0" layoutY="122.0" text="Data wydania:">
          <font>
             <Font size="13.0" />
@@ -30,7 +31,7 @@
          </font>
       </Label>
       <TextField fx:id="id_pracownika" editable="false" layoutX="254.0" layoutY="79.0" prefHeight="25.0" prefWidth="71.0" promptText="ID" />
-      <Label layoutX="27.0" layoutY="58.0" text="Numer karty:">
+      <Label layoutX="27.0" layoutY="58.0" text="Numer paszportu:">
          <font>
             <Font size="13.0" />
          </font>
@@ -40,6 +41,10 @@
             <Font size="13.0" />
          </font>
       </Label>
-      <CheckBox fx:id="edycja" layoutX="262.0" layoutY="200.0" mnemonicParsing="false" text="Edycja" />
+      <CheckBox fx:id="edycja" layoutX="262.0" layoutY="334.0" mnemonicParsing="false" text="Edycja" />
+      <TextField fx:id="kraj_pochodzenia_field" layoutX="26.0" layoutY="244.0" />
+      <TextField fx:id="oddzial_wydajacy_field" layoutX="26.0" layoutY="293.0" />
+      <Text layoutX="26.0" layoutY="240.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kraj Pochodzenia" />
+      <Text layoutX="26.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Oddział wydający" />
    </children>
 </AnchorPane>

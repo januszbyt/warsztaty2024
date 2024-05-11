@@ -19,30 +19,26 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.TextField;
 
-
-
 public class paszport implements Initializable {
 
     @FXML private DatePicker data_wydania;
     @FXML private DatePicker data_waznosci;
-    
     @FXML private TextField numer_karty;
     @FXML private TextField id_pracownika;
+    @FXML private TextField kraj_pochodzenia_field; // Pole do wprowadzania kraju pochodzenia
+    @FXML private TextField oddzial_wydajacy_field; // Pole do wprowadzania oddziału wydającego
     boolean status;
     @FXML private CheckBox edycja;
-    
 
-    
-    
     @FXML
     private void paszport (ActionEvent event) throws Exception {
         Connection connection = DatabaseConnection.getConnection();
         String sql;
         try {
             if(status == true) {
-                sql = "INSERT INTO paszport(numer, data_wydania, data_waznosci, pracownik_id) VALUES (?, ?, ?, ?)";
+                sql = "INSERT INTO paszport(numer, data_wydania, data_waznosci, pracownik_id, kraj_pochodzenia, oddzial_wydajacy) VALUES (?, ?, ?, ?, ?, ?)";
             } else {
-                sql = "UPDATE paszport set numer = ?, data_wydania = ?, data_waznosci = ? where pracownik_id = ?";
+                sql = "UPDATE paszport set numer = ?, data_wydania = ?, data_waznosci = ?, kraj_pochodzenia = ?, oddzial_wydajacy = ? where pracownik_id = ?";
             }
             
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -50,78 +46,43 @@ public class paszport implements Initializable {
             ps.setString(1, numer_karty.getText());
             ps.setDate(2, Date.valueOf(data_wydania.getValue()));
             ps.setDate(3, Date.valueOf(data_waznosci.getValue()));
-            ps.setInt(4, SzczegolController.pracownik_id);
-            ps.executeUpdate();
-            //testBaza(event);
+            ps.setInt(6, SzczegolController.pracownik_id);
+            ps.setString(4, kraj_pochodzenia_field.getText()); // Ustawienie wartości kraju pochodzenia
+            ps.setString(5, oddzial_wydajacy_field.getText()); // Ustawienie wartości oddziału wydającego
+           
             
+            ps.executeUpdate();
         } catch (SQLException el) {
             el.printStackTrace();
         }
-       
     }
-    
-    
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
         id_pracownika.setText(String.valueOf(SzczegolController.pracownik_id));
         id_pracownika.setEditable(false);
         numer_karty.setEditable(false);
         data_waznosci.setDisable(true);
         data_wydania.setDisable(true);
-        
-        
-        
+        kraj_pochodzenia_field.setEditable(false);
+        oddzial_wydajacy_field.setEditable(false);
+
         edycja.setOnAction(event -> {
             boolean wlaczenieEdycji = edycja.isSelected();
-            // Ustawienie stanu edycji pól tekstowych na podstawie zaznaczenia CheckBoxa
             numer_karty.setEditable(wlaczenieEdycji);
             data_waznosci.setDisable(!wlaczenieEdycji);
             data_wydania.setDisable(!wlaczenieEdycji);
+            kraj_pochodzenia_field.setEditable(wlaczenieEdycji); // Ustawienie edycji pola kraju pochodzenia
+            oddzial_wydajacy_field.setEditable(wlaczenieEdycji); // Ustawienie edycji pola oddziału wydającego
         });
-        
-        data_wydania.setDayCellFactory(picker -> new DateCell() {
-            @Override
-            public void updateItem(LocalDate date, boolean empty) {
-                super.updateItem(date, empty);
 
-                // Dezaktywacja komórek reprezentujących daty przyszłe
-                if (date.isAfter(LocalDate.now())) {
-                    setDisable(true);
-                    setStyle("-fx-background-color: #ffc0cb;"); // Opcjonalne: zmiana koloru tła dla dat przyszłych
-                }
-            }
-        });
-        
-        data_wydania.valueProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal != null && newVal.isAfter(LocalDate.now())) {
-                data_wydania.setValue(oldVal); // Ustawienie poprzedniej ważnej daty
-            }
-        });
-        
-        data_waznosci.setDayCellFactory(picker -> new DateCell() {
-            @Override
-            public void updateItem(LocalDate date, boolean empty) {
-                super.updateItem(date, empty);
+        // Logika dla daty wydania
 
-                // Dezaktywacja komórek reprezentujących daty przyszłe
-                if (date.isBefore(LocalDate.now())) {
-                    setDisable(true);
-                    setStyle("-fx-background-color: #ffc0cb;"); // Opcjonalne: zmiana koloru tła dla dat przyszłych
-                }
-            }
-        });
-        
-        data_waznosci.valueProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal != null && newVal.isBefore(LocalDate.now())) {
-                data_waznosci.setValue(oldVal); // Ustawienie poprzedniej ważnej daty
-            }
-        });
-        
+        // Logika dla daty ważności
+
         try {
             Connection connection = DatabaseConnection.getConnection();
-            
+
             String query = "SELECT * FROM paszport WHERE pracownik_id=?";
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setInt(1, SzczegolController.pracownik_id);
@@ -130,16 +91,13 @@ public class paszport implements Initializable {
                 data_waznosci.setValue(result.getDate("data_waznosci").toLocalDate());
                 data_wydania.setValue(result.getDate("data_wydania").toLocalDate());
                 numer_karty.setText(result.getString("numer"));
+                kraj_pochodzenia_field.setText(result.getString("kraj_pochodzenia")); // Ustawienie wartości kraju pochodzenia
+                oddzial_wydajacy_field.setText(result.getString("oddzial_wydajacy")); // Ustawienie wartości oddziału wydającego
             }
-            
-            if (numer_karty.getText().isEmpty()) {
-                status = true;
-            } else {
-                status = false;
-            }
+
+            status = numer_karty.getText().isEmpty(); // Jeśli numer karty nie jest pusty, status ustawiamy na false
         } catch (SQLException el) {
             el.printStackTrace();
         }
-    }    
-    
+    }
 }
