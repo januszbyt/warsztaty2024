@@ -15,9 +15,11 @@ import javafx.scene.control.DatePicker;
 import java.sql.*;
 import java.time.LocalDate;
 import javafx.application.Platform;
+import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class paszport implements Initializable {
 
@@ -55,6 +57,10 @@ public class paszport implements Initializable {
         } catch (SQLException el) {
             el.printStackTrace();
         }
+         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+    // Zamknij to okno po zapisie
+    stage.close();
     }
 
     @Override

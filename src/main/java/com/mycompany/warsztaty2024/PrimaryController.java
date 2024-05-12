@@ -83,6 +83,7 @@ private void open_Szczegol() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("szczegol.fxml"));
         newWindow.setScene(new Scene(loader.load()));
         newWindow.initModality(Modality.APPLICATION_MODAL);
+       
         newWindow.showAndWait();
     } else {
         // Jeśli nic nie jest zaznaczone, wyświetl komunikat
