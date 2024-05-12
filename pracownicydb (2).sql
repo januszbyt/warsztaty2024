@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Maj 11, 2024 at 05:03 PM
+-- Generation Time: Maj 12, 2024 at 05:18 PM
 -- Wersja serwera: 10.4.32-MariaDB
 -- Wersja PHP: 8.2.12
 
@@ -138,6 +138,46 @@ INSERT INTO `users` (`username`, `password`) VALUES
 ('1', '1'),
 ('1', '1');
 
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `wizy`
+--
+
+CREATE TABLE `wizy` (
+  `id_wizy` int(11) NOT NULL,
+  `data_wydania` date NOT NULL,
+  `data_waznosci` date NOT NULL,
+  `obszar` varchar(100) NOT NULL,
+  `wydajacy` varchar(100) NOT NULL,
+  `liczba` int(11) NOT NULL,
+  `rodzaj` varchar(10) NOT NULL,
+  `czas` int(11) NOT NULL,
+  `cel` varchar(250) NOT NULL,
+  `pracownik_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `wizy`
+--
+
+INSERT INTO `wizy` (`id_wizy`, `data_wydania`, `data_waznosci`, `obszar`, `wydajacy`, `liczba`, `rodzaj`, `czas`, `cel`, `pracownik_id`) VALUES
+(1, '2024-05-01', '2024-05-17', 'sdfasdfghjk', 'sdf', 4, 'd', 434, 'dsfsfs', 1),
+(4, '2024-05-25', '2024-05-31', 'sdf', 'sdf', 3, 'd', 3444, 'sdf', 31);
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `zezwolenie`
+--
+
+CREATE TABLE `zezwolenie` (
+  `zezwolenie_id` int(11) NOT NULL,
+  `data_wydania` date NOT NULL,
+  `waznosc` date NOT NULL,
+  `pracownik_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- Indeksy dla zrzutów tabel
 --
@@ -170,6 +210,20 @@ ALTER TABLE `prawa_jazdy`
   ADD KEY `prawa_jazdy_ibfk_1` (`pracownik_id`);
 
 --
+-- Indeksy dla tabeli `wizy`
+--
+ALTER TABLE `wizy`
+  ADD PRIMARY KEY (`id_wizy`),
+  ADD KEY `wizy_ibfk_1` (`pracownik_id`);
+
+--
+-- Indeksy dla tabeli `zezwolenie`
+--
+ALTER TABLE `zezwolenie`
+  ADD PRIMARY KEY (`zezwolenie_id`),
+  ADD KEY `pracownik_id` (`pracownik_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -198,6 +252,18 @@ ALTER TABLE `prawa_jazdy`
   MODIFY `id_prawa_jazdy` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `wizy`
+--
+ALTER TABLE `wizy`
+  MODIFY `id_wizy` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `zezwolenie`
+--
+ALTER TABLE `zezwolenie`
+  MODIFY `zezwolenie_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- Constraints for dumped tables
 --
 
@@ -211,15 +277,28 @@ ALTER TABLE `karty_kierowcy`
 -- Constraints for table `paszport`
 --
 ALTER TABLE `paszport`
-  ADD CONSTRAINT `paszport_ibfk_1` FOREIGN KEY (`pracownik_id`) REFERENCES `pracownik` (`pracownik_id`);
+  ADD CONSTRAINT `paszport_ibfk_1` FOREIGN KEY (`pracownik_id`) REFERENCES `pracownik` (`pracownik_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `prawa_jazdy`
 --
 ALTER TABLE `prawa_jazdy`
   ADD CONSTRAINT `prawa_jazdy_ibfk_1` FOREIGN KEY (`pracownik_id`) REFERENCES `pracownik` (`pracownik_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `wizy`
+--
+ALTER TABLE `wizy`
+  ADD CONSTRAINT `wizy_ibfk_1` FOREIGN KEY (`pracownik_id`) REFERENCES `pracownik` (`pracownik_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `zezwolenie`
+--
+ALTER TABLE `zezwolenie`
+  ADD CONSTRAINT `zezwolenie_ibfk_1` FOREIGN KEY (`pracownik_id`) REFERENCES `pracownik` (`pracownik_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
