@@ -39,6 +39,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import javafx.geometry.Pos;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.StackPane;
 
 
 
@@ -181,7 +186,79 @@ private void wybierzPlik(ActionEvent event) {
     }
 }
 
+@FXML
+private void openImage(MouseEvent event) {
+    try {
+        if (event.getClickCount() == 2) { // Podwójne kliknięcie
+            // Utwórz nowe okno
+            Stage imageStage = new Stage();
+            imageStage.setTitle("Zdjęcie");
 
+            // Utwórz obrazek
+            Image image = myimage.getImage();
+
+            // Utwórz widok obrazka
+            ImageView imageView = new ImageView(image);
+
+            // Ustaw zachowanie skalowania obrazka
+            imageView.setPreserveRatio(true);
+
+            // Utwórz kontener StackPane, aby umieścić obrazek na środku
+            StackPane rootPane = new StackPane();
+            rootPane.getChildren().add(imageView);
+
+            // Utwórz kontener ScrollPane
+            ScrollPane scrollPane = new ScrollPane(rootPane);
+            scrollPane.setFitToWidth(true);
+            scrollPane.setFitToHeight(true);
+            scrollPane.setPannable(true);
+
+            // Utwórz scenę i dodaj ScrollPane
+            Scene scene = new Scene(scrollPane);
+            imageStage.setScene(scene);
+
+            // Obsługa zoomowania za pomocą przewijania myszką
+            scrollPane.addEventFilter(ScrollEvent.ANY, event1 -> {
+                double zoomFactor = event1.getDeltaY() > 0 ? 1.1 : 0.9; // Powiększ lub pomniejsz
+                double oldWidth = imageView.getBoundsInParent().getWidth();
+                double oldHeight = imageView.getBoundsInParent().getHeight();
+                double newWidth = oldWidth * zoomFactor;
+                double newHeight = oldHeight * zoomFactor;
+
+                // Przeskaluj obrazek zachowując proporcje
+                imageView.setScaleX(imageView.getScaleX() * zoomFactor);
+                imageView.setScaleY(imageView.getScaleY() * zoomFactor);
+
+                // Przeskaluj kontener StackPane
+                rootPane.setPrefWidth(newWidth);
+                rootPane.setPrefHeight(newHeight);
+
+                // Przeskaluj kontener ScrollPane
+                scrollPane.setPrefViewportWidth(newWidth);
+                scrollPane.setPrefViewportHeight(newHeight);
+
+                // Dostosuj rozmiar okna
+                imageStage.setWidth(newWidth + 20); // Dodajemy 20 pikseli, aby zapobiec przesunięciu pojawiającego się paska przewijania
+                imageStage.setHeight(newHeight + 20); // Dodajemy 20 pikseli, aby zapobiec przesunięciu pojawiającego się paska przewijania
+            });
+
+            // Ustaw rozmiar okna na początkowy rozmiar obrazka
+            imageStage.setWidth(image.getWidth() + 20); // Dodajemy 20 pikseli, aby zapobiec przesunięciu pojawiającego się paska przewijania
+            imageStage.setHeight(image.getHeight() + 20); // Dodajemy 20 pikseli, aby zapobiec przesunięciu pojawiającego się paska przewijania
+
+            // Wyśrodkuj obrazek w kontenerze StackPane
+            rootPane.setAlignment(Pos.CENTER);
+
+            // Wyśrodkuj okno na ekranie
+            imageStage.centerOnScreen();
+
+            // Wyświetl okno
+            imageStage.show();
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
 
 @FXML
 private void zapiszDane() {
@@ -252,9 +329,7 @@ private void loadEmployeePhoto() {
             showAlert("Błąd", "Błąd wczytywania", "Wystąpił błąd podczas wczytywania zdjęcia.");
             e.printStackTrace();
         }
-    } else {
-        showAlert("Błąd", "Folder zdjecie nie istnieje", "Folder zdjecie wewnątrz folderu pracownika nie istnieje.");
-    }
+    } 
 }
 
 
