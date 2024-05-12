@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="387.0" prefWidth="442.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.warsztaty2024.wizy">
+   <children>
+      <Label layoutX="28.0" layoutY="20.0" text="Wprowadzanie danych wizy" textAlignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <DatePicker fx:id="data_wydania" layoutX="22.0" layoutY="79.0" />
+      <DatePicker fx:id="data_waznosci" layoutX="22.0" layoutY="124.0" />
+      <Button fx:id="save_button" layoutX="23.0" layoutY="343.0" mnemonicParsing="false" onAction="#wizy" text="Zapisz" />
+      <Label layoutX="22.0" layoutY="58.0" text="Data wydania:">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="20.0" layoutY="105.0" text="Data ważności:">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <TextField fx:id="id_pracownika" editable="false" layoutX="254.0" layoutY="79.0" prefHeight="25.0" prefWidth="71.0" promptText="ID" />
+      <Label layoutX="254.0" layoutY="58.0" text="ID Kierowcy:">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <CheckBox fx:id="edycja" layoutX="340.0" layoutY="347.0" mnemonicParsing="false" text="Edycja" />
+      <TextField fx:id="rodzaj" layoutX="20.0" layoutY="210.0" />
+      <TextField fx:id="czas" layoutX="20.0" layoutY="299.0" />
+      <Text layoutX="22.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Obszar" />
+      <Text layoutX="20.0" layoutY="253.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Organ wydający" />
+      <TextField fx:id="obszar" layoutX="20.0" layoutY="167.0" />
+      <TextField fx:id="wydajacy" layoutX="20.0" layoutY="256.0" />
+      <TextField fx:id="cel" layoutX="218.0" layoutY="210.0" prefHeight="76.0" prefWidth="150.0" />
+      <TextField fx:id="liczba" layoutX="218.0" layoutY="167.0" />
+      <Text layoutX="23.0" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rodzaj Wizy" wrappingWidth="70.39999999999986" />
+      <Text layoutX="25.0" layoutY="295.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Czas pobytu" />
+      <Text layoutX="222.0" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cel wydania" />
+      <Text layoutX="221.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ilość wiazdów" wrappingWidth="84.79999999999995" />
+   </children>
+</AnchorPane>

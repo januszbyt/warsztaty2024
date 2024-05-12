@@ -90,6 +90,21 @@ private void switchToKarta_Kierowcy() throws IOException {
     newWindow.initModality(Modality.APPLICATION_MODAL);
     newWindow.showAndWait();
     }
+@FXML
+private void switchTowizy() throws IOException {
+    
+    pracownik_id = Integer.valueOf(idszcz.getText());
+    //Create Stage
+    Stage newWindow = new Stage();
+    newWindow.setTitle("Wiza");
+    //Create view from FXML
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("wizy.fxml"));
+    //Set view in window
+    newWindow.setScene(new Scene(loader.load()));
+    //Launch
+    newWindow.initModality(Modality.APPLICATION_MODAL);
+    newWindow.showAndWait();
+    }
 
 @FXML
 private void switchToPrawo_jazdy() throws IOException {

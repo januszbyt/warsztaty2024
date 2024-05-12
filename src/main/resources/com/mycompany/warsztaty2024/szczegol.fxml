@@ -14,7 +14,7 @@
       <Label layoutX="26.0" layoutY="78.0" text="Nazwisko" />
       <Label layoutX="26.0" layoutY="117.0" text="Imię" />
       <TextField fx:id="imieszcz" layoutX="112.0" layoutY="113.0" prefHeight="25.0" prefWidth="393.0" />
-      <ImageView fx:id="myimage" onMouseClicked="#openImage" fitHeight="335.0" fitWidth="340.0" layoutX="625.0" layoutY="86.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="237.0" AnchorPane.leftAnchor="625.0" AnchorPane.rightAnchor="81.7484130859375" AnchorPane.topAnchor="86.0">
+      <ImageView fx:id="myimage" fitHeight="335.0" fitWidth="340.0" layoutX="625.0" layoutY="86.0" onMouseClicked="#openImage" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="237.0" AnchorPane.leftAnchor="625.0" AnchorPane.rightAnchor="81.7484130859375" AnchorPane.topAnchor="86.0">
          <image>
             <Image url="@R.jpg" />
          </image></ImageView>
@@ -38,7 +38,7 @@
       <Label layoutX="26.0" layoutY="401.0" text="Link" />
       <Button fx:id="karta_kierowca2" layoutX="112.0" layoutY="484.0" mnemonicParsing="false" onAction="#switchToPrawo_jazdy" prefHeight="25.0" prefWidth="94.0" text="Pawo jazdy" />
       <Button fx:id="karta_kierowca21" layoutX="112.0" layoutY="523.0" mnemonicParsing="false" onAction="#switchToPaszport" prefHeight="25.0" prefWidth="94.0" text="Paszport" />
-      <Button fx:id="karta_kierowca211" layoutX="112.0" layoutY="562.0" mnemonicParsing="false" onAction="#switchToKarta_Kierowcy" prefHeight="25.0" prefWidth="94.0" text="Zezwolenie" />
+      <Button fx:id="karta_kierowca211" layoutX="112.0" layoutY="562.0" mnemonicParsing="false" onAction="#switchTowizy" prefHeight="25.0" prefWidth="94.0" text="Wiza" />
       <CheckBox fx:id="edycja" layoutX="206.0" layoutY="40.0" mnemonicParsing="false" text="Edytuj" />
       <Button layoutX="798.0" layoutY="45.0" mnemonicParsing="false" onAction="#openPhoto" text="Wyświetl plik" />
       <Button layoutX="334.0" layoutY="36.0" mnemonicParsing="false" onAction="#zapiszDane" text="Zapisz" />
