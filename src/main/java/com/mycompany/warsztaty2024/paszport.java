@@ -48,9 +48,9 @@ public class paszport implements Initializable {
             ps.setString(1, numer_karty.getText());
             ps.setDate(2, Date.valueOf(data_wydania.getValue()));
             ps.setDate(3, Date.valueOf(data_waznosci.getValue()));
-            ps.setInt(6, SzczegolController.pracownik_id);
-            ps.setString(4, kraj_pochodzenia_field.getText()); // Ustawienie wartości kraju pochodzenia
-            ps.setString(5, oddzial_wydajacy_field.getText()); // Ustawienie wartości oddziału wydającego
+            ps.setInt(4, SzczegolController.pracownik_id);
+            ps.setString(5, kraj_pochodzenia_field.getText()); // Ustawienie wartości kraju pochodzenia
+            ps.setString(6, oddzial_wydajacy_field.getText()); // Ustawienie wartości oddziału wydającego
            
             
             ps.executeUpdate();
@@ -101,7 +101,11 @@ public class paszport implements Initializable {
                 oddzial_wydajacy_field.setText(result.getString("oddzial_wydajacy")); // Ustawienie wartości oddziału wydającego
             }
 
-            status = numer_karty.getText().isEmpty(); // Jeśli numer karty nie jest pusty, status ustawiamy na false
+           if (numer_karty.getText().isEmpty()) {
+                status = true;
+            } else {
+                status = false;
+            } 
         } catch (SQLException el) {
             el.printStackTrace();
         }
