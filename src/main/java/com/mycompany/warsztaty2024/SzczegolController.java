@@ -40,10 +40,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Screen;
 
 
 
@@ -349,20 +351,30 @@ private void loadEmployeePhoto() {
 
 
 @FXML
-    public void openPhoto() throws IOException {
-    
-    //pracownik_id = Integer.valueOf(idszcz.getText());
-    //Create Stage
+public void openPhoto() throws IOException {
+    // Create Stage
     Stage newWindow = new Stage();
     newWindow.setTitle("Okno wyboru zdjęcia/skanu");
-    //Create view from FXML
+    
+    // Create view from FXML
     FXMLLoader loader = new FXMLLoader(getClass().getResource("Wyswietl_Zdjecie.fxml"));
-    //Set view in window
-    newWindow.setScene(new Scene(loader.load()));
-    //Launch
+    
+    // Load the scene
+    Parent root = loader.load();
+    
+    // Get screen dimensions
+    Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+    
+    // Set dynamic size for the scene
+    Scene scene = new Scene(root, screenBounds.getWidth() * 0.8, screenBounds.getHeight() * 0.8);
+    
+    // Set scene in window
+    newWindow.setScene(scene);
+    
+    // Launch the window
     newWindow.initModality(Modality.APPLICATION_MODAL);
     newWindow.showAndWait();
-    }
+}
 
 
 private void showAlert(String title, String headerText, String contentText) {

@@ -5,17 +5,17 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="816.0" prefWidth="863.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.warsztaty2024.Wyswietl_ZdjecieController">
-   <children>
-      <Button layoutX="32.0" layoutY="760.0" mnemonicParsing="false" onAction="#loadPhoto" prefHeight="25.0" prefWidth="90.0" text="Wczytaj Plik" />
-      <ScrollPane prefHeight="740.0" prefWidth="863.0">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="737.0" prefWidth="861.0">
-               <children>
-                  <ImageView fx:id="myPhoto" fitHeight="740.0" fitWidth="863.0" pickOnBounds="true" preserveRatio="true" />
-               </children>
-            </AnchorPane>
-        </content>
-      </ScrollPane>
-   </children>
+<AnchorPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.warsztaty2024.Wyswietl_ZdjecieController">
+    <children>
+        <Button layoutX="32.0" layoutY="760.0" mnemonicParsing="false" onAction="#loadPhoto" text="Wczytaj Plik" />
+        <ScrollPane AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="125.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0">
+                    <children>
+                        <ImageView fx:id="myPhoto" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                    </children>
+                </AnchorPane>
+            </content>
+        </ScrollPane>
+    </children>
 </AnchorPane>
