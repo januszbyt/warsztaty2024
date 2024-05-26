@@ -20,6 +20,9 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import java.time.temporal.ChronoUnit;
 
 public class paszport implements Initializable {
 
@@ -48,9 +51,9 @@ public class paszport implements Initializable {
             ps.setString(1, numer_karty.getText());
             ps.setDate(2, Date.valueOf(data_wydania.getValue()));
             ps.setDate(3, Date.valueOf(data_waznosci.getValue()));
-            ps.setInt(4, SzczegolController.pracownik_id);
-            ps.setString(5, kraj_pochodzenia_field.getText()); // Ustawienie wartości kraju pochodzenia
-            ps.setString(6, oddzial_wydajacy_field.getText()); // Ustawienie wartości oddziału wydającego
+            ps.setInt(6, SzczegolController.pracownik_id);
+            ps.setString(4, kraj_pochodzenia_field.getText()); // Ustawienie wartości kraju pochodzenia
+            ps.setString(5, oddzial_wydajacy_field.getText()); // Ustawienie wartości oddziału wydającego
            
             
             ps.executeUpdate();
@@ -82,10 +85,71 @@ public class paszport implements Initializable {
             oddzial_wydajacy_field.setEditable(wlaczenieEdycji); // Ustawienie edycji pola oddziału wydającego
         });
 
-        // Logika dla daty wydania
+    // Pobranie daty ważności z bazy danych i wyświetlenie komunikatu o liczbie dni do końca ważności
+        try {
+            Connection connection = DatabaseConnection.getConnection();
+            String query = "SELECT data_waznosci FROM paszport WHERE pracownik_id=?";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, SzczegolController.pracownik_id);
+            ResultSet result = ps.executeQuery();
+            if (result.next()) {
+                LocalDate dataWaznosci = result.getDate("data_waznosci").toLocalDate();
+                LocalDate dzisiaj = LocalDate.now();
+                long dniDoKoncaWaznosci = ChronoUnit.DAYS.between(dzisiaj, dataWaznosci);
+                
+                // Sprawdzamy, czy różnica wynosi 90 dni i więcej
+                if (dniDoKoncaWaznosci <= 90 && dniDoKoncaWaznosci > 0) {
+                    // Tworzymy komunikat Alert informujący użytkownika
+                    Alert alert = new Alert(AlertType.INFORMATION);
+                    alert.setTitle("Informacja");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Do końca ważności paszportu kierowcy pozostało: " + dniDoKoncaWaznosci + " dni.");
+                    alert.showAndWait();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+                data_wydania.setDayCellFactory(picker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
 
-        // Logika dla daty ważności
+                if (date.isAfter(LocalDate.now())) {
+                    setDisable(true);
+                    setStyle("-fx-background-color: #ffc0cb;");
+                }
+            }
+        });
 
+        data_wydania.valueProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null && newVal.isAfter(LocalDate.now())) {
+                data_wydania.setValue(oldVal);
+            }
+        });
+
+        data_waznosci.setDayCellFactory(picker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+
+                if (date.isBefore(LocalDate.now())) {
+                    setDisable(true);
+                    setStyle("-fx-background-color: #ffc0cb;");
+                }
+            }
+        });
+
+        data_waznosci.valueProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null && newVal.isBefore(LocalDate.now())) {
+                data_waznosci.setValue(oldVal);
+            }
+        });
+        
+        
+        
+        
         try {
             Connection connection = DatabaseConnection.getConnection();
 
@@ -101,11 +165,7 @@ public class paszport implements Initializable {
                 oddzial_wydajacy_field.setText(result.getString("oddzial_wydajacy")); // Ustawienie wartości oddziału wydającego
             }
 
-           if (numer_karty.getText().isEmpty()) {
-                status = true;
-            } else {
-                status = false;
-            } 
+            status = numer_karty.getText().isEmpty(); // Jeśli numer karty nie jest pusty, status ustawiamy na false
         } catch (SQLException el) {
             el.printStackTrace();
         }

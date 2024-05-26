@@ -40,12 +40,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import javafx.geometry.Pos;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Screen;
 
 
 
@@ -77,6 +75,28 @@ public class SzczegolController implements Initializable {
          
     public static int pracownik_id;
 
+@FXML
+private void switchToDokumenty() throws IOException {
+    
+ 
+    //Create Stage
+    Stage newWindow = new Stage();
+    newWindow.setTitle("Dokumenty");
+    //Create view from FXML
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("Dokumenty.fxml"));
+    //Set view in window
+    newWindow.setScene(new Scene(loader.load()));
+    //Launch
+    newWindow.initModality(Modality.APPLICATION_MODAL);
+    newWindow.showAndWait();
+    }
+
+    
+    
+    
+    
+    
+    
 @FXML
 private void switchToKarta_Kierowcy() throws IOException {
     
@@ -192,9 +212,21 @@ private void wybierzPlik(ActionEvent event) {
             // Kopiuj plik do folderu i podfolderu
             String folderPath = linkszcz.getText();
             Path sourcePath = selectedFile.toPath();
-            Path destinationPath = Paths.get(folderPath, "zdjecie", selectedFile.getName());
+            Path destinationFolderPath = Paths.get(folderPath, "zdjecie");
 
-            Files.createDirectories(destinationPath.getParent()); // Utwórz podkatalog zdjecie, jeśli nie istnieje
+            // Usuń wszystkie pliki w folderze przed skopiowaniem nowego pliku
+            File folder = destinationFolderPath.toFile();
+            if (folder.exists() && folder.isDirectory()) {
+                for (File file : folder.listFiles()) {
+                    if (!file.isDirectory()) {
+                        file.delete();
+                    }
+                }
+            }
+
+            Path destinationPath = destinationFolderPath.resolve(selectedFile.getName());
+
+            Files.createDirectories(destinationFolderPath); // Utwórz podkatalog zdjecie, jeśli nie istnieje
             Files.copy(sourcePath, destinationPath, StandardCopyOption.REPLACE_EXISTING);
         } catch (Exception e) {
             showAlert("Błąd", "Błąd wczytywania lub kopiowania obrazu", "Wystąpił błąd podczas wczytywania lub kopiowania obrazu.");
@@ -202,6 +234,7 @@ private void wybierzPlik(ActionEvent event) {
         }
     }
 }
+
 
 @FXML
 private void openImage(MouseEvent event) {
@@ -282,7 +315,7 @@ private void zapiszDane() {
     try {
         Connection connection = DatabaseConnection.getConnection();
     
-        String updateQuery = "UPDATE pracownik SET nazwisko=?, imie=?, email=?, adres=?, telefon=?, narodowosc=?, zrodlo=?, status=? WHERE pracownik_id=?";
+        String updateQuery = "UPDATE pracownik SET nazwisko=?, imie=?, email=?, adres=?, telefon=?, narodowosc=?, zrodlo=?, status=?, link=? WHERE pracownik_id=?";
         PreparedStatement pstmt = connection.prepareStatement(updateQuery);
 
         pstmt.setString(1, nazwiskoszcz.getText());
@@ -293,7 +326,8 @@ private void zapiszDane() {
         pstmt.setString(6, narodszcz.getText());
         pstmt.setString(7, zrodloszcz.getText());
         pstmt.setString(8, statusszcz.getText());
-        pstmt.setInt(9, Integer.valueOf(idszcz.getText()));
+        pstmt.setString(9, linkszcz.getText());
+        pstmt.setInt(10, Integer.valueOf(idszcz.getText()));
 
         int rowsUpdated = pstmt.executeUpdate();
         if (rowsUpdated > 0) {
@@ -351,30 +385,20 @@ private void loadEmployeePhoto() {
 
 
 @FXML
-public void openPhoto() throws IOException {
-    // Create Stage
+    public void openPhoto() throws IOException {
+    
+    //pracownik_id = Integer.valueOf(idszcz.getText());
+    //Create Stage
     Stage newWindow = new Stage();
     newWindow.setTitle("Okno wyboru zdjęcia/skanu");
-    
-    // Create view from FXML
+    //Create view from FXML
     FXMLLoader loader = new FXMLLoader(getClass().getResource("Wyswietl_Zdjecie.fxml"));
-    
-    // Load the scene
-    Parent root = loader.load();
-    
-    // Get screen dimensions
-    Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-    
-    // Set dynamic size for the scene
-    Scene scene = new Scene(root, screenBounds.getWidth() * 0.8, screenBounds.getHeight() * 0.8);
-    
-    // Set scene in window
-    newWindow.setScene(scene);
-    
-    // Launch the window
+    //Set view in window
+    newWindow.setScene(new Scene(loader.load()));
+    //Launch
     newWindow.initModality(Modality.APPLICATION_MODAL);
     newWindow.showAndWait();
-}
+    }
 
 
 private void showAlert(String title, String headerText, String contentText) {

@@ -75,7 +75,7 @@ public static Osoba wybranaOsobaDalej;
 @FXML
 private void open_Szczegol() throws IOException {
     wybranaOsobaDalej = tabela.getSelectionModel().getSelectedItem();
-    
+
     // Sprawdź, czy coś jest zaznaczone
     if (wybranaOsobaDalej != null) {
         Stage newWindow = new Stage();
@@ -83,7 +83,13 @@ private void open_Szczegol() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("szczegol.fxml"));
         newWindow.setScene(new Scene(loader.load()));
         newWindow.initModality(Modality.APPLICATION_MODAL);
-       
+
+        // Dodaj listener na zamknięcie okna
+        newWindow.setOnHiding(event -> {
+            // Uruchom metodę testBaza, aby odświeżyć dane w tabeli
+            testBaza(null);
+        });
+
         newWindow.showAndWait();
     } else {
         // Jeśli nic nie jest zaznaczone, wyświetl komunikat

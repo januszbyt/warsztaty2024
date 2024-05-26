@@ -24,6 +24,9 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import java.time.temporal.ChronoUnit;
 
 
 
@@ -81,7 +84,31 @@ public class Karta_KierowcyController implements Initializable {
         data_waznosci.setDisable(true);
         data_wydania.setDisable(true);
         
-        
+        // Pobranie daty ważności z bazy danych i wyświetlenie komunikatu o liczbie dni do końca ważności
+        try {
+            Connection connection = DatabaseConnection.getConnection();
+            String query = "SELECT data_waznosci FROM karty_kierowcy WHERE pracownik_id=?";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, SzczegolController.pracownik_id);
+            ResultSet result = ps.executeQuery();
+            if (result.next()) {
+                LocalDate dataWaznosci = result.getDate("data_waznosci").toLocalDate();
+                LocalDate dzisiaj = LocalDate.now();
+                long dniDoKoncaWaznosci = ChronoUnit.DAYS.between(dzisiaj, dataWaznosci);
+                
+                // Sprawdzamy, czy różnica wynosi 90 dni i więcej
+                if (dniDoKoncaWaznosci <= 90 && dniDoKoncaWaznosci > 0) {
+                    // Tworzymy komunikat Alert informujący użytkownika
+                    Alert alert = new Alert(AlertType.INFORMATION);
+                    alert.setTitle("Informacja");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Do końca ważności karty kierowcy pozostało: " + dniDoKoncaWaznosci + " dni.");
+                    alert.showAndWait();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         
         edycja.setOnAction(event -> {
             boolean wlaczenieEdycji = edycja.isSelected();
@@ -96,7 +123,6 @@ public class Karta_KierowcyController implements Initializable {
             public void updateItem(LocalDate date, boolean empty) {
                 super.updateItem(date, empty);
 
-                // Dezaktywacja komórek reprezentujących daty przyszłe
                 if (date.isAfter(LocalDate.now())) {
                     setDisable(true);
                     setStyle("-fx-background-color: #ffc0cb;"); // Opcjonalne: zmiana koloru tła dla dat przyszłych

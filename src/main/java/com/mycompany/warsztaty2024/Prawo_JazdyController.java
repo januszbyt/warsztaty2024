@@ -24,6 +24,9 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import java.time.temporal.ChronoUnit;
 
 public class Prawo_JazdyController implements Initializable {
 
@@ -72,6 +75,34 @@ private void prawo_jazdy(ActionEvent event) throws Exception {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+            try {
+            Connection connection = DatabaseConnection.getConnection();
+            String query = "SELECT data_waznosci FROM prawa_jazdy WHERE pracownik_id=?";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, SzczegolController.pracownik_id);
+            ResultSet result = ps.executeQuery();
+            if (result.next()) {
+                LocalDate dataWaznosci = result.getDate("data_waznosci").toLocalDate();
+                LocalDate dzisiaj = LocalDate.now();
+                long dniDoKoncaWaznosci = ChronoUnit.DAYS.between(dzisiaj, dataWaznosci);
+                
+                // Sprawdzamy, czy różnica wynosi 90 dni i więcej
+                if (dniDoKoncaWaznosci <= 90 && dniDoKoncaWaznosci > 0) {
+                    // Tworzymy komunikat Alert informujący użytkownika
+                    Alert alert = new Alert(AlertType.INFORMATION);
+                    alert.setTitle("Informacja");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Do końca ważności prwajazdy pozostało: " + dniDoKoncaWaznosci + " dni.");
+                    alert.showAndWait();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        
+        
         id_pracownika.setText(String.valueOf(SzczegolController.pracownik_id));
         id_pracownika.setEditable(false);
         kategorie.setEditable(false);

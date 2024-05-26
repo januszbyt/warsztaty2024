@@ -42,5 +42,6 @@
       <CheckBox fx:id="edycja" layoutX="206.0" layoutY="40.0" mnemonicParsing="false" text="Edytuj" />
       <Button layoutX="798.0" layoutY="45.0" mnemonicParsing="false" onAction="#openPhoto" text="Wyświetl plik" />
       <Button layoutX="334.0" layoutY="36.0" mnemonicParsing="false" onAction="#zapiszDane" text="Zapisz" />
+      <Button layoutX="687.0" layoutY="536.0" mnemonicParsing="false" onAction="#switchToDokumenty" prefHeight="78.0" prefWidth="121.0" text="Button" />
    </children>
 </AnchorPane>
