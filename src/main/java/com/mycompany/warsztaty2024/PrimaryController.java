@@ -63,14 +63,43 @@ public class PrimaryController implements Initializable {
 @FXML private TextField Status_tekst;
 @FXML private TextField Link_tekst;
 
-
-
+ private static boolean isDarkTheme = false;
 ObservableList<Osoba> dane = FXCollections.observableArrayList(
 new Osoba(1, "", "", "","","","","","","")
 
         ); 
-
+ 
 public static Osoba wybranaOsobaDalej;
+public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
+
+
+
+    @FXML
+    private void zmienMotywAction(ActionEvent event) {
+        if (stage != null) {
+            Scene scene = stage.getScene();
+            String darkTheme = getClass().getResource("dark-thema.css").toExternalForm();
+            if (scene.getStylesheets().contains(darkTheme)) {
+                scene.getStylesheets().remove(darkTheme);
+                isDarkTheme = false;
+            } else {
+                scene.getStylesheets().add(darkTheme);
+                isDarkTheme = true;
+            }
+        } else {
+            System.err.println("Stage is not initialized.");
+        }
+    }
+
+    
+
+    
+    public static boolean isDarkTheme() {
+        return isDarkTheme;
+    }
 
 @FXML
 private void open_Szczegol() throws IOException {
@@ -81,7 +110,15 @@ private void open_Szczegol() throws IOException {
         Stage newWindow = new Stage();
         newWindow.setTitle("Dane Szczegółowe");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("szczegol.fxml"));
-        newWindow.setScene(new Scene(loader.load()));
+        Scene scene = new Scene(loader.load());
+
+        // Zastosuj aktualny motyw do nowego okna
+        if (PrimaryController.isDarkTheme()) {
+            String darkTheme = getClass().getResource("dark-thema.css").toExternalForm();
+            scene.getStylesheets().add(darkTheme);
+        }
+
+        newWindow.setScene(scene);
         newWindow.initModality(Modality.APPLICATION_MODAL);
 
         // Dodaj listener na zamknięcie okna
@@ -103,7 +140,6 @@ private void open_Szczegol() throws IOException {
         });
     }
 }
-
 @FXML
 private void testBaza(ActionEvent event) {
     Task<Void> task;

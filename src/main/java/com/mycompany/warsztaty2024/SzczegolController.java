@@ -77,56 +77,65 @@ public class SzczegolController implements Initializable {
 
 @FXML
 private void switchToDokumenty() throws IOException {
-    
- 
-    //Create Stage
+    // Create Stage
     Stage newWindow = new Stage();
     newWindow.setTitle("Dokumenty");
-    //Create view from FXML
+
+    // Create view from FXML
     FXMLLoader loader = new FXMLLoader(getClass().getResource("Dokumenty.fxml"));
-    //Set view in window
-    newWindow.setScene(new Scene(loader.load()));
-    //Launch
+    Scene scene = new Scene(loader.load());
+
+    // Zastosuj aktualny motyw do nowego okna
+    applyCurrentTheme(scene);
+
+    // Set view in window
+    newWindow.setScene(scene);
+    // Launch
     newWindow.initModality(Modality.APPLICATION_MODAL);
     newWindow.showAndWait();
-    }
+}
 
-    
-    
-    
-    
-    
-    
 @FXML
 private void switchToKarta_Kierowcy() throws IOException {
-    
     pracownik_id = Integer.valueOf(idszcz.getText());
-    //Create Stage
+    // Create Stage
     Stage newWindow = new Stage();
     newWindow.setTitle("Karta kierowcy");
-    //Create view from FXML
+
+    // Create view from FXML
     FXMLLoader loader = new FXMLLoader(getClass().getResource("Karta_Kierowcy.fxml"));
-    //Set view in window
-    newWindow.setScene(new Scene(loader.load()));
-    //Launch
+    Scene scene = new Scene(loader.load());
+
+    // Zastosuj aktualny motyw do nowego okna
+    applyCurrentTheme(scene);
+
+    // Set view in window
+    newWindow.setScene(scene);
+    // Launch
     newWindow.initModality(Modality.APPLICATION_MODAL);
     newWindow.showAndWait();
-    }
+}
+
 @FXML
 private void switchTowizy() throws IOException {
-    
     pracownik_id = Integer.valueOf(idszcz.getText());
-    //Create Stage
+    // Create Stage
     Stage newWindow = new Stage();
     newWindow.setTitle("Wiza");
-    //Create view from FXML
+
+    // Create view from FXML
     FXMLLoader loader = new FXMLLoader(getClass().getResource("wizy.fxml"));
-    //Set view in window
-    newWindow.setScene(new Scene(loader.load()));
-    //Launch
+    Scene scene = new Scene(loader.load());
+
+    // Zastosuj aktualny motyw do nowego okna
+    applyCurrentTheme(scene);
+
+    // Set view in window
+    newWindow.setScene(scene);
+    // Launch
     newWindow.initModality(Modality.APPLICATION_MODAL);
     newWindow.showAndWait();
-    }
+}
 
 @FXML
 private void switchToPrawo_jazdy() throws IOException {
@@ -134,34 +143,55 @@ private void switchToPrawo_jazdy() throws IOException {
     // Create Stage
     Stage newWindow = new Stage();
     newWindow.setTitle("Prawo Jazdy");
+
     // Create view from FXML
     FXMLLoader loader = new FXMLLoader(getClass().getResource("Prawo_jazdy.fxml"));
-    // Set view in window
     Parent root = loader.load();
+
     // Access controller and set pracownik_id
     Prawo_JazdyController controller = loader.getController();
-    controller.id_pracownika.setText(String.valueOf(pracownik_id)); // Set pracownik_id
+    controller.id_pracownika.setText(String.valueOf(pracownik_id));
+
+    // Create scene
+    Scene scene = new Scene(root);
+
+    // Zastosuj aktualny motyw do nowego okna
+    applyCurrentTheme(scene);
+
     // Set view in window
-    newWindow.setScene(new Scene(root));
+    newWindow.setScene(scene);
     // Launch
     newWindow.initModality(Modality.APPLICATION_MODAL);
     newWindow.showAndWait();
 }
+
 @FXML
 private void switchToPaszport() throws IOException {
-    
     pracownik_id = Integer.valueOf(idszcz.getText());
-    //Create Stage
+    // Create Stage
     Stage newWindow = new Stage();
     newWindow.setTitle("Paszport");
-    //Create view from FXML
+
+    // Create view from FXML
     FXMLLoader loader = new FXMLLoader(getClass().getResource("paszport.fxml"));
-    //Set view in window
-    newWindow.setScene(new Scene(loader.load()));
-    //Launch
+    Scene scene = new Scene(loader.load());
+
+    // Zastosuj aktualny motyw do nowego okna
+    applyCurrentTheme(scene);
+
+    // Set view in window
+    newWindow.setScene(scene);
+    // Launch
     newWindow.initModality(Modality.APPLICATION_MODAL);
     newWindow.showAndWait();
+}
+
+private void applyCurrentTheme(Scene scene) {
+    if (PrimaryController.isDarkTheme()) {
+        String darkTheme = getClass().getResource("dark-thema.css").toExternalForm();
+        scene.getStylesheets().add(darkTheme);
     }
+}
 
 
 @FXML
