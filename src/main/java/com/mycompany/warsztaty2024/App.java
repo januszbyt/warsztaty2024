@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import javafx.stage.Modality;
 
 public class App extends Application {
 
@@ -33,10 +34,21 @@ public class App extends Application {
     }
 
     static void setMainScene() {
+        // Create a new Stage (window)
+        Stage modalStage = new Stage();
+
+        // Set the owner of the new Stage
         Stage primaryStage = (Stage) loginScene.getWindow();
-        primaryStage.setScene(mainScene);
-        primaryStage.setTitle("Start");
-        primaryStage.centerOnScreen();
+        modalStage.initOwner(primaryStage);
+
+        
+        modalStage.initModality(Modality.APPLICATION_MODAL);
+
+        modalStage.setScene(mainScene);
+        modalStage.setTitle("Start");
+        modalStage.centerOnScreen();
+        primaryStage.close();
+        modalStage.showAndWait();
     }
 
     public static void main(String[] args) {

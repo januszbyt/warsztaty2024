@@ -45,6 +45,17 @@ public class Prawo_JazdyController implements Initializable {
 
 @FXML
 private void prawo_jazdy(ActionEvent event) throws Exception {
+    // Validate that all fields are filled
+        if (numer_pj.getText().isEmpty() || kategorie.getText().isEmpty() || data_wydania.getValue() == null ||
+            data_waznosci.getValue() == null || kraj_pochodzenia.getText().isEmpty()) {
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("Uwaga");
+            alert.setHeaderText(null);
+            alert.setContentText("Uzupełnij wszystkie pola, aby zapisać.");
+            alert.showAndWait();
+            return; // Exit the method if validation fails
+        }
+    
     Connection connection = DatabaseConnection.getConnection();
     String sql;
     try {

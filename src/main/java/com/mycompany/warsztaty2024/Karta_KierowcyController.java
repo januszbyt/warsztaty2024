@@ -45,6 +45,15 @@ public class Karta_KierowcyController implements Initializable {
     
     @FXML
     private void karta_kier (ActionEvent event) throws Exception {
+        if (numer_karty.getText().isEmpty() || data_wydania.getValue() == null || data_waznosci.getValue() == null) {
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("Uwaga");
+            alert.setHeaderText(null);
+            alert.setContentText("Uzupełnij wszystkie pola, aby zapisać.");
+            alert.showAndWait();
+            return; // Exit the method if validation fails
+        }
+        
         Connection connection = DatabaseConnection.getConnection();
         String sql;
         try {
