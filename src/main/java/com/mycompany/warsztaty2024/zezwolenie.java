@@ -1,0 +1,139 @@
+package com.mycompany.warsztaty2024;
+
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.DateCell;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+
+public class zezwolenie implements Initializable {
+
+    @FXML private DatePicker data_wydania;
+    @FXML private DatePicker waznosc;
+    @FXML private TextField id_pracownika;
+    @FXML private CheckBox edycja;
+
+    boolean status;
+
+    @FXML
+    private void zapiszZezwolenie(ActionEvent event) throws SQLException {
+        // Sprawdzenie, czy wszystkie wymagane pola są wypełnione
+        if (data_wydania.getValue() == null || waznosc.getValue() == null || 
+            id_pracownika.getText().isEmpty()) {
+            
+            // Wyświetlenie komunikatu o uzupełnieniu wszystkich pól
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Brakujące pola");
+            alert.setHeaderText(null);
+            alert.setContentText("Uzupełnij wszystkie pola");
+            alert.showAndWait();
+        } else {
+            Connection connection = DatabaseConnection.getConnection();
+            String sql;
+            try {
+                if (status) {
+                    sql = "INSERT INTO zezwolenie (data_wydania, waznosc, pracownik_id) VALUES (?, ?, ?)";
+                } else {
+                    sql = "UPDATE zezwolenie SET data_wydania = ?, waznosc = ? WHERE pracownik_id = ?";
+                }
+
+                PreparedStatement ps = connection.prepareStatement(sql);
+
+                ps.setDate(1, Date.valueOf(data_wydania.getValue()));
+                ps.setDate(2, Date.valueOf(waznosc.getValue()));
+                ps.setInt(3, SzczegolController.pracownik_id);
+                ps.executeUpdate();
+
+                // Zamknij to okno po zapisie
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.close();
+
+            } catch (SQLException el) {
+                el.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        id_pracownika.setText(String.valueOf(SzczegolController.pracownik_id));
+        id_pracownika.setEditable(false);
+        waznosc.setDisable(true);
+        data_wydania.setDisable(true);
+
+        // Dodaj logikę pobierania danych z bazy danych
+        try {
+            Connection connection = DatabaseConnection.getConnection();
+            String sql = "SELECT data_wydania, waznosc FROM zezwolenie WHERE pracownik_id = ?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, SzczegolController.pracownik_id);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                data_wydania.setValue(rs.getDate("data_wydania").toLocalDate());
+                waznosc.setValue(rs.getDate("waznosc").toLocalDate());
+                status = false; // Rekord istnieje, więc aktualizuj
+            } else {
+                status = true; // Rekord nie istnieje, więc dodaj nowy
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        edycja.setOnAction(event -> {
+            boolean wlaczenieEdycji = edycja.isSelected();
+            waznosc.setDisable(!wlaczenieEdycji);
+            data_wydania.setDisable(!wlaczenieEdycji);
+        });
+
+        data_wydania.setDayCellFactory(picker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+
+                if (date.isAfter(LocalDate.now())) {
+                    setDisable(true);
+                    setStyle("-fx-background-color: #ffc0cb;");
+                }
+            }
+        });
+
+        data_wydania.valueProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null && newVal.isAfter(LocalDate.now())) {
+                data_wydania.setValue(oldVal);
+            }
+        });
+
+        waznosc.setDayCellFactory(picker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+
+                if (date.isBefore(LocalDate.now())) {
+                    setDisable(true);
+                    setStyle("-fx-background-color: #ffc0cb;");
+                }
+            }
+        });
+
+        waznosc.valueProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null && newVal.isBefore(LocalDate.now())) {
+                waznosc.setValue(oldVal);
+            }
+        });
+    }
+}

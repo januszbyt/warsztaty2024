@@ -185,6 +185,26 @@ private void switchToPaszport() throws IOException {
     newWindow.initModality(Modality.APPLICATION_MODAL);
     newWindow.showAndWait();
 }
+@FXML
+private void switchToZezwolenie() throws IOException {
+    
+    pracownik_id = Integer.valueOf(idszcz.getText());
+    //Create Stage
+    Stage newWindow = new Stage();
+    newWindow.setTitle("Zezwolenie");
+    //Create view from FXML
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("zezwolenie.fxml"));
+     Scene scene = new Scene(loader.load());
+    //Set view in window
+    applyCurrentTheme(scene);
+    
+    
+     newWindow.setScene(scene);
+    //Launch
+    
+    newWindow.initModality(Modality.APPLICATION_MODAL);
+    newWindow.showAndWait();
+    }
 
 private void applyCurrentTheme(Scene scene) {
     if (PrimaryController.isDarkTheme()) {
@@ -499,5 +519,3 @@ private void aktualizujFolder() {
          loadEmployeePhoto();
     }
     }
-        
- 

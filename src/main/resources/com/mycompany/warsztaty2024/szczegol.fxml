@@ -43,5 +43,7 @@
       <Button layoutX="798.0" layoutY="45.0" mnemonicParsing="false" onAction="#openPhoto" text="Wyświetl plik" />
       <Button layoutX="334.0" layoutY="36.0" mnemonicParsing="false" onAction="#zapiszDane" text="Zapisz" />
       <Button layoutX="687.0" layoutY="536.0" mnemonicParsing="false" onAction="#switchToDokumenty" prefHeight="78.0" prefWidth="121.0" text="Button" />
+      <Button layoutX="111.0" layoutY="600.0" mnemonicParsing="false" onAction="#switchToZezwolenie" prefHeight="26.0" prefWidth="94.0" text="Zezwolenie" />
    </children>
 </AnchorPane>
+
