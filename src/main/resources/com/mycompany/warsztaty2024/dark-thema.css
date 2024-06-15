@@ -25,6 +25,14 @@
     -fx-border-width: 1px;
 }
 
+/* Dodatkowy styl dla zwykłych pól tekstowych */
+.text-input {
+    -fx-text-fill: #ffffff; /* Kolor tekstu w zwykłych polach tekstowych */
+    -fx-background-color: #3c3f41; /* Tło zwykłych pól tekstowych */
+    -fx-border-color: #555555; /* Kolor obramowania */
+    -fx-border-width: 1px; /* Grubość obramowania */
+}
+
 /* Style dla menu */
 .menu-bar {
     -fx-background-color: #3c3f41;
@@ -47,8 +55,127 @@
     -fx-text-fill: #ffffff;
 }
 
-.table-row-cell, .table-cell {
+.table-row-cell {
     -fx-background-color: #3c3f41;
     -fx-text-fill: #ffffff;
     -fx-border-color: #555555;
+}
+
+/* Styl dla zaznaczonego wiersza w tabeli */
+.table-row-cell:filled:selected,
+.table-row-cell:filled:focused,
+.table-row-cell:filled:focused:selected {
+    -fx-background-color: #555555; /* Szary kolor podświetlenia */
+    -fx-text-fill: #ffffff; /* Utrzymanie koloru tekstu */
+}
+
+/* Styl dla najechanego wiersza w tabeli */
+.table-row-cell:filled:hover {
+    -fx-background-color: #4a4a4a; /* Jaśniejszy szary dla efektu hover */
+    -fx-text-fill: #ffffff; /* Utrzymanie koloru tekstu */
+}
+
+/* Styl dla komórek w tabeli */
+.table-cell:filled {
+    -fx-background-color: transparent; /* Usunięcie koloru tła komórki */
+    -fx-text-fill: inherit; /* Dziedziczenie koloru tekstu z wiersza */
+}
+
+/* Specyficzny styl dla zaznaczonej komórki, aby nie nadpisywać stylu wiersza */
+.table-cell:filled:selected,
+.table-cell:filled:focused {
+    -fx-background-color: transparent; /* Usunięcie koloru tła komórki */
+    -fx-text-fill: inherit; /* Dziedziczenie koloru tekstu z wiersza */
+}
+
+/* Styl dla najechanych komórek */
+.table-cell:filled:hover {
+    -fx-background-color: transparent; /* Usunięcie koloru tła komórki */
+    -fx-text-fill: inherit; /* Dziedziczenie koloru tekstu z wiersza */
+}
+
+/* Specyficzny styl dla zaznaczonego i najechanego wiersza */
+.table-view:focused .table-row-cell:filled:selected {
+    -fx-background-color: #555555; /* Szary kolor podświetlenia */
+    -fx-text-fill: #ffffff; /* Utrzymanie koloru tekstu */
+}
+
+/* Styl dla nagłówków kolumn */
+.table-column-header {
+    -fx-background-color: #3c3f41; /* Taki sam kolor tła jak reszty */
+    -fx-text-fill: #ffffff; /* Kolor tekstu nagłówków */
+    -fx-border-color: transparent; /* Brak obramowania między kolumnami */
+}
+
+/* Styl dla tła nagłówków kolumn */
+.table-column-header-background {
+    -fx-background-color: #3c3f41; /* Taki sam kolor tła jak reszty */
+    -fx-border-color: transparent; /* Brak obramowania między kolumnami */
+}
+
+/* Usunięcie białych pasków między nagłówkami kolumn */
+.table-column-header .column-header {
+    -fx-background-color: #3c3f41; /* Taki sam kolor tła jak reszty */
+    -fx-border-color: transparent; /* Brak obramowania między kolumnami */
+    -fx-padding: 0; /* Usunięcie dodatkowego odstępu */
+    -fx-border-width: 0; /* Usunięcie dodatkowego obramowania */
+}
+
+/* Styl dla komórek nagłówka kolumny */
+.table-view .column-header .label {
+    -fx-background-color: #3c3f41; /* Taki sam kolor tła jak reszty */
+    -fx-text-fill: #ffffff; /* Kolor tekstu nagłówków */
+    -fx-border-color: transparent; /* Brak obramowania */
+}
+
+/* Styl dla wnętrza kontenera nagłówka */
+.table-view .column-header-background .label {
+    -fx-background-color: #3c3f41; /* Taki sam kolor tła jak reszty */
+    -fx-text-fill: #ffffff; /* Kolor tekstu nagłówków */
+    -fx-border-color: transparent; /* Brak obramowania */
+}
+
+/* Usunięcie dodatkowego odstępu między nagłówkami */
+.table-column-header .column-header {
+    -fx-padding: 0; /* Usunięcie odstępu */
+    -fx-border-width: 0; /* Usunięcie obramowania */
+}
+
+/* Stylizacja separatorów kolumn */
+.table-column-header .column-header .resize-handle {
+    -fx-background-color: #3c3f41; /* Taki sam kolor tła jak reszty */
+    -fx-border-color: transparent; /* Brak obramowania */
+    -fx-padding: 0; /* Usunięcie dodatkowego odstępu */
+    -fx-pref-width: 1px; /* Ustawienie szerokości na 1px */
+}
+
+/* Stylizacja separatorów kolumn w nagłówkach */
+.table-view .column-header-background .resize-line {
+    -fx-stroke: #3c3f41; /* Taki sam kolor tła jak reszty */
+    -fx-stroke-width: 1; /* Grubość linii separatora */
+}
+
+/* Stylizacja separatorów kolumn */
+.table-view .resize-handle {
+    -fx-background-color: #3c3f41; /* Taki sam kolor tła jak reszty */
+    -fx-border-color: transparent; /* Brak obramowania */
+    -fx-padding: 0; /* Usunięcie dodatkowego odstępu */
+    -fx-pref-width: 1px; /* Ustawienie szerokości na 1px */
+}
+
+/* Styl dla tekstu w CheckBox */
+.check-box .text {
+    -fx-fill: #ffffff; /* Kolor tekstu */
+}
+
+/* Styl dla kwadratu (box) w CheckBox */
+.check-box .box {
+    -fx-background-color: #3c3f41; /* Kolor tła kwadratu (box) */
+    -fx-border-color: #555555; /* Kolor obramowania kwadratu (box) */
+}
+
+
+.table-view .column-header {
+    -fx-background-color: #3c3f41; /* Taki sam kolor tła jak reszty */
+    
 }

@@ -36,7 +36,7 @@
       <Label layoutX="26.0" layoutY="362.0" text="Status" />
       <TextField fx:id="linkszcz" layoutX="112.0" layoutY="399.0" prefHeight="25.0" prefWidth="393.0" />
       <Label layoutX="26.0" layoutY="401.0" text="Link" />
-      <Button fx:id="karta_kierowca2" layoutX="112.0" layoutY="484.0" mnemonicParsing="false" onAction="#switchToPrawo_jazdy" prefHeight="25.0" prefWidth="94.0" text="Pawo jazdy" />
+      <Button fx:id="karta_kierowca2" layoutX="112.0" layoutY="484.0" mnemonicParsing="false" onAction="#switchToPrawo_jazdy" prefHeight="25.0" prefWidth="94.0" text="Prawo jazdy" />
       <Button fx:id="karta_kierowca21" layoutX="112.0" layoutY="444.0" mnemonicParsing="false" onAction="#switchToPaszport" prefHeight="25.0" prefWidth="94.0" text="Paszport" />
       <Button fx:id="karta_kierowca211" layoutX="111.0" layoutY="523.0" mnemonicParsing="false" onAction="#switchTowizy" prefHeight="25.0" prefWidth="94.0" text="Wiza" />
       <CheckBox fx:id="edycja" layoutX="206.0" layoutY="40.0" mnemonicParsing="false" text="Edytuj" />
@@ -46,4 +46,3 @@
       <Button layoutX="111.0" layoutY="600.0" mnemonicParsing="false" onAction="#switchToZezwolenie" prefHeight="26.0" prefWidth="94.0" text="Zezwolenie" />
    </children>
 </AnchorPane>
-

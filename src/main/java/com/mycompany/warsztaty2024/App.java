@@ -26,7 +26,7 @@ public class App extends Application {
 
         FXMLLoader mainLoader = new FXMLLoader(App.class.getResource("primary.fxml"));
         Parent mainRoot = mainLoader.load();
-        mainScene = new Scene(mainRoot, 900, 600);
+        mainScene = new Scene(mainRoot, 909, 600);
 
         // Ustawienie stage w kontrolerze
         PrimaryController primaryController = mainLoader.getController();
