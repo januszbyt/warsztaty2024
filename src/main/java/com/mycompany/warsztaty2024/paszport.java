@@ -41,7 +41,7 @@ public class paszport implements Initializable {
         String sql;
         try {
             if(status == true) {
-                sql = "INSERT INTO paszport(numer, data_wydania, data_waznosci, pracownik_id, kraj_pochodzenia, oddzial_wydajacy) VALUES (?, ?, ?, ?, ?, ?)";
+                sql = "INSERT INTO paszport(numer, data_wydania, data_waznosci, kraj_pochodzenia, oddzial_wydajacy, pracownik_id) VALUES (?, ?, ?, ?, ?, ?)";
             } else {
                 sql = "UPDATE paszport set numer = ?, data_wydania = ?, data_waznosci = ?, kraj_pochodzenia = ?, oddzial_wydajacy = ? where pracownik_id = ?";
             }
@@ -51,10 +51,9 @@ public class paszport implements Initializable {
             ps.setString(1, numer_karty.getText());
             ps.setDate(2, Date.valueOf(data_wydania.getValue()));
             ps.setDate(3, Date.valueOf(data_waznosci.getValue()));
-            ps.setInt(4, SzczegolController.pracownik_id);
-            ps.setString(5, kraj_pochodzenia_field.getText()); // Ustawienie wartości kraju pochodzenia
-            ps.setString(6, oddzial_wydajacy_field.getText()); // Ustawienie wartości oddziału wydającego
-           
+            ps.setString(4, kraj_pochodzenia_field.getText()); // Ustawienie wartości kraju pochodzenia
+            ps.setString(5, oddzial_wydajacy_field.getText()); // Ustawienie wartości oddziału wydającego
+            ps.setInt(6, SzczegolController.pracownik_id);
             
             ps.executeUpdate();
         } catch (SQLException el) {
