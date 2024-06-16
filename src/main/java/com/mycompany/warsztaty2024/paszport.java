@@ -36,35 +36,50 @@ public class paszport implements Initializable {
     @FXML private CheckBox edycja;
 
     @FXML
-    private void paszport (ActionEvent event) throws Exception {
-        Connection connection = DatabaseConnection.getConnection();
-        String sql;
-        try {
-            if(status == true) {
-                sql = "INSERT INTO paszport(numer, data_wydania, data_waznosci, kraj_pochodzenia, oddzial_wydajacy, pracownik_id) VALUES (?, ?, ?, ?, ?, ?)";
-            } else {
-                sql = "UPDATE paszport set numer = ?, data_wydania = ?, data_waznosci = ?, kraj_pochodzenia = ?, oddzial_wydajacy = ? where pracownik_id = ?";
-            }
-            
-            PreparedStatement ps = connection.prepareStatement(sql);
-            
-            ps.setString(1, numer_karty.getText());
-            ps.setDate(2, Date.valueOf(data_wydania.getValue()));
-            ps.setDate(3, Date.valueOf(data_waznosci.getValue()));
-            ps.setString(4, kraj_pochodzenia_field.getText()); // Ustawienie wartości kraju pochodzenia
-            ps.setString(5, oddzial_wydajacy_field.getText()); // Ustawienie wartości oddziału wydającego
-            ps.setInt(6, SzczegolController.pracownik_id);
-            
-            ps.executeUpdate();
-        } catch (SQLException el) {
-            el.printStackTrace();
-        }
-         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-    // Zamknij to okno po zapisie
-    stage.close();
+private void paszport(ActionEvent event) throws Exception {
+    // Sprawdzenie, czy wszystkie pola są wypełnione
+    if (numer_karty.getText().isEmpty() ||
+        data_wydania.getValue() == null ||
+        data_waznosci.getValue() == null ||
+        kraj_pochodzenia_field.getText().isEmpty() ||
+        oddzial_wydajacy_field.getText().isEmpty()) {
+        
+        // Wyświetlenie komunikatu ostrzegawczego
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Brakujące dane");
+        alert.setHeaderText(null);
+        alert.setContentText("Proszę wypełnić wszystkie pola.");
+        alert.showAndWait();
+        return; // Przerwanie metody
     }
 
+    Connection connection = DatabaseConnection.getConnection();
+    String sql;
+    try {
+        if (status) {
+            sql = "INSERT INTO paszport(numer, data_wydania, data_waznosci, kraj_pochodzenia, oddzial_wydajacy, pracownik_id) VALUES (?, ?, ?, ?, ?, ?)";
+        } else {
+            sql = "UPDATE paszport SET numer = ?, data_wydania = ?, data_waznosci = ?, kraj_pochodzenia = ?, oddzial_wydajacy = ? WHERE pracownik_id = ?";
+        }
+
+        PreparedStatement ps = connection.prepareStatement(sql);
+
+        ps.setString(1, numer_karty.getText());
+        ps.setDate(2, Date.valueOf(data_wydania.getValue()));
+        ps.setDate(3, Date.valueOf(data_waznosci.getValue()));
+        ps.setString(4, kraj_pochodzenia_field.getText()); // Ustawienie wartości kraju pochodzenia
+        ps.setString(5, oddzial_wydajacy_field.getText()); // Ustawienie wartości oddziału wydającego
+        ps.setInt(6, SzczegolController.pracownik_id);
+
+        ps.executeUpdate();
+    } catch (SQLException el) {
+        el.printStackTrace();
+    }
+
+    // Zamknij okno po zapisie
+    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    stage.close();
+}
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         id_pracownika.setText(String.valueOf(SzczegolController.pracownik_id));

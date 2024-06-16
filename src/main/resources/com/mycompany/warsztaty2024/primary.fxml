@@ -30,7 +30,7 @@
             <Button fx:id="przycisk_dodaj" layoutX="345.0" layoutY="108.0" mnemonicParsing="false" onAction="#zapiszDoBazy" text="Dodaj" />
             <Button layoutX="419.0" layoutY="108.0" mnemonicParsing="false" onAction="#testBaza" text="Baza" />
             <Button layoutX="532.0" layoutY="14.0" mnemonicParsing="false" onAction="#open_Szczegol" text="Szczegóły" />
-            <Button layoutX="661.0" layoutY="36.0" mnemonicParsing="false" onAction="#zmienMotywAction" text="Button" />
+            <Button layoutX="756.0" layoutY="96.0" mnemonicParsing="false" onAction="#zmienMotywAction" text="Zmiana motywu" />
          </children>
       </Pane>
    </bottom>
