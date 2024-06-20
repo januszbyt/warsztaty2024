@@ -179,3 +179,8 @@
     -fx-background-color: #3c3f41; /* Taki sam kolor tła jak reszty */
     
 }
+
+.hyperlink {
+    -fx-text-fill: inherit;
+    -fx-text-decoration: none;
+}

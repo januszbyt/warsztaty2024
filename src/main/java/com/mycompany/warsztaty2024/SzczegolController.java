@@ -44,7 +44,10 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.StackPane;
-
+import java.awt.Desktop;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import javafx.scene.control.Hyperlink;
 
 
 
@@ -72,9 +75,71 @@ public class SzczegolController implements Initializable {
     @FXML private ImageView myimage; 
    boolean status;
     @FXML private CheckBox edycja;
+    @FXML private Hyperlink show_paszport;
+    @FXML private Hyperlink show_pj;
+    @FXML private Hyperlink show_wiza;
+    @FXML private Hyperlink show_kk;
+    @FXML private Hyperlink show_zezwolenie;
          
     public static int pracownik_id;
 
+    private void checkPaszportFolder() {
+        String folderPath = linkszcz.getText() + "/paszport";
+        File folder = new File(folderPath);
+        
+        String folderPath1 = linkszcz.getText() + "/prawo_jazdy";
+        File folder1 = new File(folderPath1);
+        
+        String folderPath2 = linkszcz.getText() + "/wiza";
+        File folder2 = new File(folderPath2);
+        
+        String folderPath3 = linkszcz.getText() + "/karta_kierowcy";
+        File folder3 = new File(folderPath3);
+        
+        String folderPath4 = linkszcz.getText() + "/zezwolenie";
+        File folder4 = new File(folderPath4);
+
+        if (folder.exists()) {
+            // Jeśli folder istnieje, ustaw hiperłącze jako aktywne
+            show_paszport.setDisable(false);
+        } else {
+            // Jeśli folder nie istnieje, hiperłącze ma być nieaktywne
+            show_paszport.setDisable(true);
+        }
+        
+        if (folder1.exists()) {
+            // Jeśli folder istnieje, ustaw hiperłącze jako aktywne
+            show_pj.setDisable(false);
+        } else {
+            // Jeśli folder nie istnieje, hiperłącze ma być nieaktywne
+            show_pj.setDisable(true);
+        }
+        
+        if (folder2.exists()) {
+            // Jeśli folder istnieje, ustaw hiperłącze jako aktywne
+            show_wiza.setDisable(false);
+        } else {
+            // Jeśli folder nie istnieje, hiperłącze ma być nieaktywne
+            show_wiza.setDisable(true);
+        }
+        
+        if (folder3.exists()) {
+            // Jeśli folder istnieje, ustaw hiperłącze jako aktywne
+            show_kk.setDisable(false);
+        } else {
+            // Jeśli folder nie istnieje, hiperłącze ma być nieaktywne
+            show_kk.setDisable(true);
+        }
+        
+        if (folder4.exists()) {
+            // Jeśli folder istnieje, ustaw hiperłącze jako aktywne
+            show_zezwolenie.setDisable(false);
+        } else {
+            // Jeśli folder nie istnieje, hiperłącze ma być nieaktywne
+            show_zezwolenie.setDisable(true);
+        }
+    }
+    
 @FXML
 private void switchToDokumenty() throws IOException {
     // Create Stage
@@ -285,7 +350,416 @@ private void wybierzPlik(ActionEvent event) {
     }
 }
 
+        @FXML
+        private void paszportSkan(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Wybierz plik skanu paszportu");
 
+        FileChooser.ExtensionFilter jpgFilter = new FileChooser.ExtensionFilter("JPG Files (*.jpg)", "*.jpg");
+        FileChooser.ExtensionFilter pdfFilter = new FileChooser.ExtensionFilter("PDF Files (*.pdf)", "*.pdf");
+        FileChooser.ExtensionFilter allFilter = new FileChooser.ExtensionFilter("All Files (*.*)", "*.*");
+        fileChooser.getExtensionFilters().addAll(jpgFilter, pdfFilter, allFilter);
+
+        File selectedFile = fileChooser.showOpenDialog(null);
+
+        if (selectedFile != null) {
+            try {
+                String folderPath = linkszcz.getText();
+                File destinationDir = new File(folderPath, "paszport");
+
+                // Tworzenie folderu "paszport" jeśli nie istnieje
+                if (!destinationDir.exists()) {
+                    destinationDir.mkdirs();
+                    show_paszport.setDisable(false);
+                }
+
+                File destinationFile = new File(destinationDir, selectedFile.getName());
+                Files.copy(selectedFile.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Sukces");
+                alert.setHeaderText(null);
+                alert.setContentText("Plik został zapisany pomyślnie w " + destinationDir.getAbsolutePath());
+                alert.showAndWait();
+
+            } catch (IOException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Błąd");
+                alert.setHeaderText(null);
+                alert.setContentText("Wystąpił błąd podczas zapisywania pliku.");
+                alert.showAndWait();
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    
+        @FXML
+        private void showPaszport(ActionEvent event) {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Wybierz plik do wyświetlenia");
+
+            String folderPath = linkszcz.getText();
+            File initialDirectory = new File(folderPath, "paszport");
+
+            if (initialDirectory.exists()) {
+                fileChooser.setInitialDirectory(initialDirectory);
+            }
+
+            File selectedFile = fileChooser.showOpenDialog(null);
+
+            if (selectedFile != null) {
+                if (Desktop.isDesktopSupported()) {
+                    Desktop desktop = Desktop.getDesktop();
+                    try {
+                        desktop.open(selectedFile);
+                    } catch (IOException e) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Błąd");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Nie można otworzyć wybranego pliku: " + e.getMessage());
+                        alert.showAndWait();
+                        e.printStackTrace();
+                    }
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Błąd");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Otwieranie plików nie jest wspierane na tej platformie.");
+                    alert.showAndWait();
+                }
+            }
+            
+        }
+
+        
+        @FXML
+        private void pjSkan(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Wybierz plik skanu prawa jazdy");
+
+        FileChooser.ExtensionFilter jpgFilter = new FileChooser.ExtensionFilter("JPG Files (*.jpg)", "*.jpg");
+        FileChooser.ExtensionFilter pdfFilter = new FileChooser.ExtensionFilter("PDF Files (*.pdf)", "*.pdf");
+        FileChooser.ExtensionFilter allFilter = new FileChooser.ExtensionFilter("All Files (*.*)", "*.*");
+        fileChooser.getExtensionFilters().addAll(jpgFilter, pdfFilter, allFilter);
+
+        File selectedFile = fileChooser.showOpenDialog(null);
+
+        if (selectedFile != null) {
+            try {
+                String folderPath = linkszcz.getText();
+                File destinationDir = new File(folderPath, "prawo_jazdy");
+
+                // Tworzenie folderu "paszport" jeśli nie istnieje
+                if (!destinationDir.exists()) {
+                    destinationDir.mkdirs();
+                    show_pj.setDisable(false);
+                }
+
+                File destinationFile = new File(destinationDir, selectedFile.getName());
+                Files.copy(selectedFile.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Sukces");
+                alert.setHeaderText(null);
+                alert.setContentText("Plik został zapisany pomyślnie w " + destinationDir.getAbsolutePath());
+                alert.showAndWait();
+
+            } catch (IOException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Błąd");
+                alert.setHeaderText(null);
+                alert.setContentText("Wystąpił błąd podczas zapisywania pliku.");
+                alert.showAndWait();
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    
+        @FXML
+        private void showPj(ActionEvent event) {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Wybierz plik do wyświetlenia");
+
+            String folderPath = linkszcz.getText();
+            File initialDirectory = new File(folderPath, "prawo_jazdy");
+
+            if (initialDirectory.exists()) {
+                fileChooser.setInitialDirectory(initialDirectory);
+            }
+
+            File selectedFile = fileChooser.showOpenDialog(null);
+
+            if (selectedFile != null) {
+                if (Desktop.isDesktopSupported()) {
+                    Desktop desktop = Desktop.getDesktop();
+                    try {
+                        desktop.open(selectedFile);
+                    } catch (IOException e) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Błąd");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Nie można otworzyć wybranego pliku: " + e.getMessage());
+                        alert.showAndWait();
+                        e.printStackTrace();
+                    }
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Błąd");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Otwieranie plików nie jest wspierane na tej platformie.");
+                    alert.showAndWait();
+                }
+            }
+        }
+        
+        @FXML
+        private void wizaSkan(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Wybierz plik skanu wizy");
+
+        FileChooser.ExtensionFilter jpgFilter = new FileChooser.ExtensionFilter("JPG Files (*.jpg)", "*.jpg");
+        FileChooser.ExtensionFilter pdfFilter = new FileChooser.ExtensionFilter("PDF Files (*.pdf)", "*.pdf");
+        FileChooser.ExtensionFilter allFilter = new FileChooser.ExtensionFilter("All Files (*.*)", "*.*");
+        fileChooser.getExtensionFilters().addAll(jpgFilter, pdfFilter, allFilter);
+
+        File selectedFile = fileChooser.showOpenDialog(null);
+
+        if (selectedFile != null) {
+            try {
+                String folderPath = linkszcz.getText();
+                File destinationDir = new File(folderPath, "wiza");
+
+                // Tworzenie folderu "paszport" jeśli nie istnieje
+                if (!destinationDir.exists()) {
+                    destinationDir.mkdirs();
+                    show_wiza.setDisable(false);
+                }
+
+                File destinationFile = new File(destinationDir, selectedFile.getName());
+                Files.copy(selectedFile.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Sukces");
+                alert.setHeaderText(null);
+                alert.setContentText("Plik został zapisany pomyślnie w " + destinationDir.getAbsolutePath());
+                alert.showAndWait();
+
+            } catch (IOException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Błąd");
+                alert.setHeaderText(null);
+                alert.setContentText("Wystąpił błąd podczas zapisywania pliku.");
+                alert.showAndWait();
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    
+        @FXML
+        private void showWiza(ActionEvent event) {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Wybierz plik do wyświetlenia");
+
+            String folderPath = linkszcz.getText();
+            File initialDirectory = new File(folderPath, "wiza");
+
+            if (initialDirectory.exists()) {
+                fileChooser.setInitialDirectory(initialDirectory);
+            }
+
+            File selectedFile = fileChooser.showOpenDialog(null);
+
+            if (selectedFile != null) {
+                if (Desktop.isDesktopSupported()) {
+                    Desktop desktop = Desktop.getDesktop();
+                    try {
+                        desktop.open(selectedFile);
+                    } catch (IOException e) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Błąd");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Nie można otworzyć wybranego pliku: " + e.getMessage());
+                        alert.showAndWait();
+                        e.printStackTrace();
+                    }
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Błąd");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Otwieranie plików nie jest wspierane na tej platformie.");
+                    alert.showAndWait();
+                }
+            }
+            
+        }
+        
+        @FXML
+        private void kkSkan(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Wybierz plik skanu karty kierowcy");
+
+        FileChooser.ExtensionFilter jpgFilter = new FileChooser.ExtensionFilter("JPG Files (*.jpg)", "*.jpg");
+        FileChooser.ExtensionFilter pdfFilter = new FileChooser.ExtensionFilter("PDF Files (*.pdf)", "*.pdf");
+        FileChooser.ExtensionFilter allFilter = new FileChooser.ExtensionFilter("All Files (*.*)", "*.*");
+        fileChooser.getExtensionFilters().addAll(jpgFilter, pdfFilter, allFilter);
+
+        File selectedFile = fileChooser.showOpenDialog(null);
+
+        if (selectedFile != null) {
+            try {
+                String folderPath = linkszcz.getText();
+                File destinationDir = new File(folderPath, "karta_kierowcy");
+
+                // Tworzenie folderu "paszport" jeśli nie istnieje
+                if (!destinationDir.exists()) {
+                    destinationDir.mkdirs();
+                    show_kk.setDisable(false);
+                }
+
+                File destinationFile = new File(destinationDir, selectedFile.getName());
+                Files.copy(selectedFile.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Sukces");
+                alert.setHeaderText(null);
+                alert.setContentText("Plik został zapisany pomyślnie w " + destinationDir.getAbsolutePath());
+                alert.showAndWait();
+
+            } catch (IOException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Błąd");
+                alert.setHeaderText(null);
+                alert.setContentText("Wystąpił błąd podczas zapisywania pliku.");
+                alert.showAndWait();
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    
+        @FXML
+        private void showKk(ActionEvent event) {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Wybierz plik do wyświetlenia");
+
+            String folderPath = linkszcz.getText();
+            File initialDirectory = new File(folderPath, "karta_kierowcy");
+
+            if (initialDirectory.exists()) {
+                fileChooser.setInitialDirectory(initialDirectory);
+            }
+
+            File selectedFile = fileChooser.showOpenDialog(null);
+
+            if (selectedFile != null) {
+                if (Desktop.isDesktopSupported()) {
+                    Desktop desktop = Desktop.getDesktop();
+                    try {
+                        desktop.open(selectedFile);
+                    } catch (IOException e) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Błąd");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Nie można otworzyć wybranego pliku: " + e.getMessage());
+                        alert.showAndWait();
+                        e.printStackTrace();
+                    }
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Błąd");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Otwieranie plików nie jest wspierane na tej platformie.");
+                    alert.showAndWait();
+                }
+            }
+            
+        }
+        
+        @FXML
+        private void zezwolenieSkan(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Wybierz plik skanu zezwolenia");
+
+        FileChooser.ExtensionFilter jpgFilter = new FileChooser.ExtensionFilter("JPG Files (*.jpg)", "*.jpg");
+        FileChooser.ExtensionFilter pdfFilter = new FileChooser.ExtensionFilter("PDF Files (*.pdf)", "*.pdf");
+        FileChooser.ExtensionFilter allFilter = new FileChooser.ExtensionFilter("All Files (*.*)", "*.*");
+        fileChooser.getExtensionFilters().addAll(jpgFilter, pdfFilter, allFilter);
+
+        File selectedFile = fileChooser.showOpenDialog(null);
+
+        if (selectedFile != null) {
+            try {
+                String folderPath = linkszcz.getText();
+                File destinationDir = new File(folderPath, "zezwolenie");
+
+                // Tworzenie folderu "paszport" jeśli nie istnieje
+                if (!destinationDir.exists()) {
+                    destinationDir.mkdirs();
+                    show_zezwolenie.setDisable(false);
+                }
+
+                File destinationFile = new File(destinationDir, selectedFile.getName());
+                Files.copy(selectedFile.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Sukces");
+                alert.setHeaderText(null);
+                alert.setContentText("Plik został zapisany pomyślnie w " + destinationDir.getAbsolutePath());
+                alert.showAndWait();
+
+            } catch (IOException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Błąd");
+                alert.setHeaderText(null);
+                alert.setContentText("Wystąpił błąd podczas zapisywania pliku.");
+                alert.showAndWait();
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    
+        @FXML
+        private void showZezwolenie(ActionEvent event) {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Wybierz plik do wyświetlenia");
+
+            String folderPath = linkszcz.getText();
+            File initialDirectory = new File(folderPath, "zezwolenie");
+
+            if (initialDirectory.exists()) {
+                fileChooser.setInitialDirectory(initialDirectory);
+            }
+
+            File selectedFile = fileChooser.showOpenDialog(null);
+
+            if (selectedFile != null) {
+                if (Desktop.isDesktopSupported()) {
+                    Desktop desktop = Desktop.getDesktop();
+                    try {
+                        desktop.open(selectedFile);
+                    } catch (IOException e) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Błąd");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Nie można otworzyć wybranego pliku: " + e.getMessage());
+                        alert.showAndWait();
+                        e.printStackTrace();
+                    }
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Błąd");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Otwieranie plików nie jest wspierane na tej platformie.");
+                    alert.showAndWait();
+                }
+            }
+            
+        }
+        
 @FXML
 private void openImage(MouseEvent event) {
     try {
@@ -517,5 +991,6 @@ private void aktualizujFolder() {
         
         
          loadEmployeePhoto();
+         checkPaszportFolder();
     }
     }
