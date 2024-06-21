@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -73,7 +74,30 @@ public class zezwolenie implements Initializable {
         id_pracownika.setEditable(false);
         waznosc.setDisable(true);
         data_wydania.setDisable(true);
-
+try {
+            Connection connection = DatabaseConnection.getConnection();
+            String query = "SELECT waznosc FROM zezwolenie WHERE pracownik_id=?";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, SzczegolController.pracownik_id);
+            ResultSet result = ps.executeQuery();
+            if (result.next()) {
+                LocalDate dataWaznosci = result.getDate("waznosc").toLocalDate();
+                LocalDate dzisiaj = LocalDate.now();
+                long dniDoKoncaWaznosci = ChronoUnit.DAYS.between(dzisiaj, dataWaznosci);
+                
+                // Sprawdzamy, czy różnica wynosi 90 dni i więcej
+                if (dniDoKoncaWaznosci <= 90 && dniDoKoncaWaznosci > 0) {
+                    // Tworzymy komunikat Alert informujący użytkownika
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Informacja");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Do końca ważności zezwolenia kierowcy pozostało: " + dniDoKoncaWaznosci + " dni.");
+                    alert.showAndWait();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         // Dodaj logikę pobierania danych z bazy danych
         try {
             Connection connection = DatabaseConnection.getConnection();
