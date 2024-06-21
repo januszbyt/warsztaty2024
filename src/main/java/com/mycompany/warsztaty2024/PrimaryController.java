@@ -309,40 +309,62 @@ private void testBaza(ActionEvent event) {
     }
 
     @FXML
-    private void usunZBazy(ActionEvent event) {
-        Osoba wybranaOsoba = tabela.getSelectionModel().getSelectedItem();
+private void usunZBazy(ActionEvent event) {
+    Osoba wybranaOsoba = tabela.getSelectionModel().getSelectedItem();
 
-        if (wybranaOsoba != null) {
-            Task<Void> task = new Task<Void>() {
-                @Override
-                protected Void call() throws Exception {
-                    try {
-                        Connection connection = DatabaseConnection.getConnection();
-                        String query = "DELETE FROM pracownik WHERE pracownik_id=?";
+    if (wybranaOsoba != null) {
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                try {
+                    Connection connection = DatabaseConnection.getConnection();
+                    String query = "DELETE FROM pracownik WHERE pracownik_id=?";
 
-                        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-                            preparedStatement.setInt(1, wybranaOsoba.getID());
-                            preparedStatement.executeUpdate();
-                        }
-
-                        connection.close();
-
-                        Platform.runLater(() -> {
-                            tabela.getItems().remove(wybranaOsoba);
-                        });
-                    } catch (SQLException e) {
-                        e.printStackTrace();
+                    try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                        preparedStatement.setInt(1, wybranaOsoba.getID());
+                        preparedStatement.executeUpdate();
                     }
-                    return null;
-                }
-            };
 
-            new Thread(task).start();
-        } else {
-            // Jeśli nic nie jest zaznaczone, wyświetl komunikat
-            // Tutaj możesz dodać dowolną obsługę, np. wyświetlić alert z informacją dla użytkownika
+                    // Usunięcie folderu przypisanego do pracownika
+                    String folderPath = wybranaOsoba.getLink();
+                    if (folderPath != null && !folderPath.isEmpty()) {
+                        File folder = new File(folderPath);
+                        if (folder.exists()) {
+                            deleteDirectory(folder);
+                        }
+                    }
+
+                    connection.close();
+
+                    Platform.runLater(() -> {
+                        tabela.getItems().remove(wybranaOsoba);
+                    });
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        };
+
+        new Thread(task).start();
+    } else {
+        // Jeśli nic nie jest zaznaczone, wyświetl komunikat
+        // Tutaj możesz dodać dowolną obsługę, np. wyświetlić alert z informacją dla użytkownika
+    }
+}
+
+// Metoda rekurencyjna do usuwania folderu i jego zawartości
+private void deleteDirectory(File directory) {
+    if (directory.isDirectory()) {
+        File[] files = directory.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                deleteDirectory(file);
+            }
         }
     }
+    directory.delete();
+}
 
     private void wybierzFolder() {
         DirectoryChooser directoryChooser = new DirectoryChooser();

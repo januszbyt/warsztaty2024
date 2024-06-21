@@ -41,9 +41,9 @@
       <Button fx:id="karta_kierowca21" layoutX="112.0" layoutY="444.0" mnemonicParsing="false" onAction="#switchToPaszport" prefHeight="25.0" prefWidth="94.0" text="Paszport" />
       <Button fx:id="karta_kierowca211" layoutX="111.0" layoutY="523.0" mnemonicParsing="false" onAction="#switchTowizy" prefHeight="25.0" prefWidth="94.0" text="Wiza" />
       <CheckBox fx:id="edycja" layoutX="206.0" layoutY="40.0" mnemonicParsing="false" text="Edytuj" />
-      <Button layoutX="798.0" layoutY="45.0" mnemonicParsing="false" onAction="#openPhoto" text="Wyświetl plik" />
+      <!-- <Button layoutX="798.0" layoutY="45.0" mnemonicParsing="false" onAction="#openPhoto" text="Wyświetl plik" /> -->
       <Button layoutX="334.0" layoutY="36.0" mnemonicParsing="false" onAction="#zapiszDane" text="Zapisz" />
-      <Button layoutX="687.0" layoutY="536.0" mnemonicParsing="false" onAction="#switchToDokumenty" prefHeight="78.0" prefWidth="121.0" text="Button" />
+      <!-- <Button layoutX="687.0" layoutY="536.0" mnemonicParsing="false" onAction="#switchToDokumenty" prefHeight="78.0" prefWidth="121.0" text="Button" /> -->
       <Button layoutX="111.0" layoutY="600.0" mnemonicParsing="false" onAction="#switchToZezwolenie" prefHeight="26.0" prefWidth="94.0" text="Zezwolenie" />
       <Hyperlink fx:id="paszport_skan" layoutX="221.0" layoutY="445.0" onAction="#paszportSkan" text="Dodaj Skan" />
       <Hyperlink fx:id="show_paszport" layoutX="300.0" layoutY="445.0" onAction="#showPaszport" text="Pokaż Skan" />

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Maj 12, 2024 at 05:18 PM
+-- Generation Time: Cze 21, 2024 at 05:31 PM
 -- Wersja serwera: 10.4.32-MariaDB
 -- Wersja PHP: 8.2.12
 
@@ -243,7 +243,7 @@ ALTER TABLE `paszport`
 -- AUTO_INCREMENT for table `pracownik`
 --
 ALTER TABLE `pracownik`
-  MODIFY `pracownik_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `pracownik_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `prawa_jazdy`
@@ -295,10 +295,9 @@ ALTER TABLE `wizy`
 -- Constraints for table `zezwolenie`
 --
 ALTER TABLE `zezwolenie`
-  ADD CONSTRAINT `zezwolenie_ibfk_1` FOREIGN KEY (`pracownik_id`) REFERENCES `pracownik` (`pracownik_id`);
+  ADD CONSTRAINT `zezwolenie_ibfk_1` FOREIGN KEY (`pracownik_id`) REFERENCES `pracownik` (`pracownik_id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
